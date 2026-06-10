@@ -335,6 +335,148 @@ a{color:inherit;text-decoration:none}
   box-shadow:0 4px 20px rgba(0,201,167,.3);
 }
 
+
+/* ── Home Dashboard ───────────────────────────────────────────── */
+.home-hero{
+  background:linear-gradient(135deg,#0D2137 0%,#0A1E30 100%);
+  border:1px solid var(--border);border-radius:var(--r);
+  padding:18px;margin-bottom:14px;position:relative;overflow:hidden;
+}
+.home-hero::after{
+  content:'';position:absolute;top:-30px;right:-30px;
+  width:120px;height:120px;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,201,167,.12),transparent 70%);
+  pointer-events:none;
+}
+.hero-greeting{font-size:12px;color:var(--text3);margin-bottom:2px;font-weight:500}
+.hero-name{font-size:20px;font-weight:800;letter-spacing:-.4px;margin-bottom:14px}
+.hero-name span{
+  background:linear-gradient(90deg,var(--acc),var(--acc2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.kpi{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
+  border-radius:10px;padding:10px 6px;text-align:center;
+}
+.kpi-val{font-size:20px;font-weight:800;line-height:1}
+.kpi-lbl{font-size:9px;color:var(--text3);margin-top:3px;font-weight:500}
+.kpi.acc .kpi-val{color:var(--acc)}
+.kpi.blue .kpi-val{color:var(--acc2)}
+.kpi.amber .kpi-val{color:var(--amber)}
+.kpi.purple .kpi-val{color:var(--purple)}
+
+.home-section{margin-bottom:16px}
+.home-section-title{
+  font-size:11px;font-weight:700;letter-spacing:.8px;
+  color:var(--text3);text-transform:uppercase;
+  margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;
+}
+.home-section-title a{
+  font-size:10px;color:var(--acc);letter-spacing:0;text-transform:none;cursor:pointer;
+}
+
+/* Mini gráfico sparkline semanal */
+.spark-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r);padding:14px;margin-bottom:14px;
+}
+.spark-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+.spark-title{font-size:12px;font-weight:700;color:var(--text2)}
+.spark-val{font-size:22px;font-weight:800;color:var(--acc);line-height:1}
+.spark-sub{font-size:10px;color:var(--text3);margin-top:2px}
+.sparkline{display:flex;align-items:flex-end;gap:4px;height:48px}
+.sp-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
+.sp-bar{width:100%;border-radius:3px 3px 0 0;min-height:3px;transition:height .5s ease}
+.sp-lbl{font-size:8px;color:var(--text3)}
+
+/* Gráfico de dor radial (donut) */
+.donut-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.donut-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r);padding:14px;
+}
+.donut-card-title{font-size:11px;font-weight:700;color:var(--text2);margin-bottom:10px}
+.donut-wrap{display:flex;align-items:center;gap:10px}
+.donut-svg{flex-shrink:0}
+.donut-legend{flex:1}
+.dl-item{display:flex;align-items:center;gap:5px;margin-bottom:5px}
+.dl-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.dl-label{font-size:10px;color:var(--text2)}
+.dl-val{font-size:10px;font-weight:700;color:var(--text);margin-left:auto}
+
+/* Gráfico de frequência por dia da semana */
+.heatrow{display:flex;gap:5px;margin-bottom:14px}
+.heat-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r);padding:14px;flex:1;
+}
+.heat-title{font-size:11px;font-weight:700;color:var(--text2);margin-bottom:10px}
+.heat-cols{display:flex;gap:4px;align-items:flex-end;height:52px}
+.heat-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
+.heat-bar{width:100%;border-radius:2px 2px 0 0;min-height:3px}
+.heat-lbl{font-size:8px;color:var(--text3);text-align:center}
+
+/* Próximo treino sugerido */
+.next-card{
+  background:linear-gradient(135deg,rgba(0,151,255,.12),rgba(0,201,167,.08));
+  border:1px solid rgba(0,151,255,.25);
+  border-radius:var(--r);padding:14px;margin-bottom:14px;
+  display:flex;align-items:center;gap:14px;cursor:pointer;
+}
+.next-badge{
+  width:48px;height:48px;border-radius:12px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;font-weight:800;
+  background:rgba(0,151,255,.2);color:var(--acc2);
+}
+.next-info{flex:1}
+.next-label{font-size:11px;color:var(--acc2);font-weight:600;margin-bottom:2px}
+.next-name{font-size:15px;font-weight:700}
+.next-meta{font-size:11px;color:var(--text2);margin-top:2px}
+.next-arrow{color:var(--text3)}
+
+/* Streak ring */
+.streak-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r);padding:14px;
+  display:flex;align-items:center;gap:14px;margin-bottom:14px;
+}
+.streak-ring{position:relative;width:56px;height:56px;flex-shrink:0}
+.streak-ring svg{width:56px;height:56px;transform:rotate(-90deg)}
+.streak-ring svg circle{fill:none;stroke-width:5;stroke-linecap:round}
+.streak-ring .sr-track{stroke:var(--bg3)}
+.streak-ring .sr-fill{stroke:var(--acc);transition:stroke-dashoffset .8s ease}
+.streak-num{
+  position:absolute;inset:0;display:flex;align-items:center;
+  justify-content:center;font-size:16px;font-weight:800;color:var(--acc);
+}
+.streak-info{flex:1}
+.streak-title{font-size:14px;font-weight:700}
+.streak-sub{font-size:11px;color:var(--text2);margin-top:2px}
+
+/* Últimos 3 treinos mini */
+.recent-row{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
+.recent-item{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r-sm);padding:10px 12px;
+  display:flex;align-items:center;gap:10px;
+}
+.ri-badge{
+  width:28px;height:28px;border-radius:8px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:800;
+}
+.ri-info{flex:1}
+.ri-nome{font-size:12px;font-weight:600}
+.ri-data{font-size:10px;color:var(--text3);margin-top:1px}
+.ri-dor{font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px}
+.dor-sem    {background:rgba(0,201,167,.12);color:var(--green)}
+.dor-leve   {background:rgba(255,209,102,.12);color:var(--amber)}
+.dor-moderada{background:rgba(255,107,107,.12);color:var(--red)}
+.dor-forte  {background:rgba(255,107,107,.2);color:var(--red)}
+
 /* ── Evolução ─────────────────────────────────────────────────── */
 .ciclo-header{
   display:flex;align-items:center;justify-content:space-between;
@@ -478,28 +620,101 @@ a{color:inherit;text-decoration:none}
 
     <!-- HOME PAGE -->
     <div id="page-home" class="page active">
-      <div class="hero">
-        <div class="hero-name">Rodrigo Vichiato</div>
-        <div class="hero-title">Programa <span>ABCDEF</span><br>Ombros Adaptado</div>
-        <div class="stats-row">
-          <div class="stat"><div class="stat-val" id="statDone">0</div><div class="stat-lbl">Treinos feitos</div></div>
-          <div class="stat"><div class="stat-val">6</div><div class="stat-lbl">Dias no ciclo</div></div>
-          <div class="stat"><div class="stat-val">12<span style="font-size:13px">min</span></div><div class="stat-lbl">Aquecimento</div></div>
+
+      <!-- Hero KPI -->
+      <div class="home-hero">
+        <div class="hero-greeting" id="heroGreeting">Bom dia</div>
+        <div class="hero-name">Rodrigo <span>Vichiato</span></div>
+        <div class="kpi-row">
+          <div class="kpi acc"><div class="kpi-val" id="statDone">0</div><div class="kpi-lbl">Treinos</div></div>
+          <div class="kpi blue"><div class="kpi-val" id="kpiCiclos">0</div><div class="kpi-lbl">Ciclos</div></div>
+          <div class="kpi amber"><div class="kpi-val" id="kpiStreak">0</div><div class="kpi-lbl">Sequência</div></div>
+          <div class="kpi purple"><div class="kpi-val" id="kpiSemana">0</div><div class="kpi-lbl">Essa sem.</div></div>
         </div>
       </div>
 
-      <div class="section-title">Selecione o treino</div>
-      <div class="day-grid" id="dayGrid"></div>
+      <!-- Próximo treino sugerido -->
+      <div id="nextTreinoCard"></div>
 
-      <div class="section-title">Resumo dos ombros</div>
+      <!-- Streak ring + info -->
+      <div class="streak-card" id="streakCard">
+        <div class="streak-ring">
+          <svg viewBox="0 0 56 56">
+            <circle class="sr-track" cx="28" cy="28" r="24"/>
+            <circle class="sr-fill" id="srFill" cx="28" cy="28" r="24"
+              stroke-dasharray="150.8" stroke-dashoffset="150.8"/>
+          </svg>
+          <div class="streak-num" id="srNum">0</div>
+        </div>
+        <div class="streak-info">
+          <div class="streak-title" id="streakTitle">Comece hoje!</div>
+          <div class="streak-sub" id="streakSub">Nenhum treino registrado ainda</div>
+        </div>
+      </div>
+
+      <!-- Sparkline semanal -->
+      <div class="spark-card">
+        <div class="spark-header">
+          <div>
+            <div class="spark-title">Frequência semanal</div>
+            <div class="spark-sub" id="sparkSub">últimas 7 semanas</div>
+          </div>
+          <div style="text-align:right">
+            <div class="spark-val" id="sparkVal">—</div>
+            <div class="spark-sub">treinos/sem. (média)</div>
+          </div>
+        </div>
+        <div class="sparkline" id="sparkline"></div>
+      </div>
+
+      <!-- Donut dor + Frequência por tipo -->
+      <div class="donut-row">
+        <div class="donut-card">
+          <div class="donut-card-title">Dor nos ombros</div>
+          <div class="donut-wrap">
+            <svg class="donut-svg" width="54" height="54" viewBox="0 0 54 54" id="donutSvg">
+              <circle cx="27" cy="27" r="20" fill="none" stroke="var(--bg3)" stroke-width="10"/>
+            </svg>
+            <div class="donut-legend" id="donutLegend">
+              <div class="dl-item"><div class="dl-dot" style="background:var(--green)"></div><div class="dl-label">Sem dor</div><div class="dl-val" id="dSemPct">—</div></div>
+              <div class="dl-item"><div class="dl-dot" style="background:var(--amber)"></div><div class="dl-label">Leve</div><div class="dl-val" id="dLevePct">—</div></div>
+              <div class="dl-item"><div class="dl-dot" style="background:var(--red)"></div><div class="dl-label">Mod+</div><div class="dl-val" id="dModPct">—</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="donut-card">
+          <div class="donut-card-title">Por tipo</div>
+          <div class="heat-cols" id="tipoChart" style="height:80px;align-items:flex-end;display:flex;gap:5px"></div>
+        </div>
+      </div>
+
+      <!-- Últimos treinos -->
+      <div class="home-section">
+        <div class="home-section-title">
+          Últimos treinos
+          <a onclick="switchPage('evolucao')">ver todos →</a>
+        </div>
+        <div class="recent-row" id="recentRow">
+          <div style="font-size:12px;color:var(--text3);text-align:center;padding:16px">Nenhum treino ainda</div>
+        </div>
+      </div>
+
+      <!-- Grid de treinos -->
+      <div class="home-section">
+        <div class="home-section-title">Selecione o treino</div>
+        <div class="day-grid" id="dayGrid"></div>
+      </div>
+
+      <!-- Alertas ombros -->
       <div class="alert-card">
         <h4>⚠ Impacto subacromial bilateral</h4>
-        <p>Ambos os ombros têm síndrome do impacto + tendinopatia do supraespinhal. O ombro direito tem cisto paralabral de 1,0 cm. Siga as adaptações e limites de amplitude indicados.</p>
+        <p>Ambos os ombros têm síndrome do impacto + tendinopatia do supraespinhal. O ombro direito tem cisto paralabral de 1,0 cm.</p>
       </div>
-      <div class="alert-card" style="background:rgba(0,151,255,.08);border-color:rgba(0,151,255,.25)">
+      <div class="alert-card" style="background:rgba(0,151,255,.08);border-color:rgba(0,151,255,.25);margin-bottom:0">
         <h4 style="color:var(--acc2)">💡 Regras de ouro</h4>
-        <p>Elevação lateral: máx. 70°, polegar p/ cima · Press: parar antes do arco de dor · Puxadas: pegada supinada ou neutra · Treino F: 2-3x por semana obrigatório</p>
+        <p>Elev. lateral máx. 70° · polegar p/ cima · Press: parar antes do arco de dor · Puxadas: pegada supinada/neutra · Treino F: 2–3×/sem obrigatório</p>
       </div>
+
     </div>
 
     <!-- TREINO PAGE -->
@@ -753,7 +968,7 @@ function init() {
   renderDayGrid();
   renderSubList();
   renderEvolucao();
-  document.getElementById('statDone').textContent = historico.length || totalDone;
+  renderHomeDashboard();
 }
 
 // ── Day Grid ────────────────────────────────────────────────────────
@@ -938,6 +1153,7 @@ function renderSubList() {
 function goHome() {
   document.getElementById('topTitle').textContent = 'Treino ABCDEF';
   showPage('home');
+  renderHomeDashboard();
   document.getElementById('nav-home').classList.add('active');
   document.getElementById('nav-treino').classList.remove('active');
   document.getElementById('nav-info').classList.remove('active');
@@ -961,6 +1177,7 @@ function switchPage(name) {
     document.getElementById('nav-'+n)?.classList[n===name?'add':'remove']('active');
   });
   if (name !== 'treino') document.getElementById('topTitle').textContent = 'Treino ABCDEF';
+  if (name === 'home') renderHomeDashboard();
 }
 
 function showPage(name) {
@@ -999,6 +1216,207 @@ function closeTimer() {
   document.getElementById('timerOverlay').classList.remove('show');
 }
 
+
+
+// ══════════════════════════════════════════════════════════════════
+// HOME DASHBOARD
+// ══════════════════════════════════════════════════════════════════
+function renderHomeDashboard() {
+  const h = historico;
+  const total = h.length;
+
+  // Saudação
+  const hr = new Date().getHours();
+  const gr = hr < 12 ? 'Bom dia' : hr < 18 ? 'Boa tarde' : 'Boa noite';
+  document.getElementById('heroGreeting').textContent = gr;
+
+  // KPIs
+  document.getElementById('statDone').textContent  = total;
+  const ciclos = Math.floor(h.filter(x=>x.exFeitos===x.exTotal).length / 6);
+  document.getElementById('kpiCiclos').textContent = ciclos;
+
+  const streak = calcStreak();
+  document.getElementById('kpiStreak').textContent = streak;
+  document.getElementById('kpiSemana').textContent = treinosNaSemana(0);
+
+  // Streak ring
+  const maxStreak = 14;
+  const pct = Math.min(streak / maxStreak, 1);
+  const circ = 150.8;
+  document.getElementById('srFill').style.strokeDashoffset = circ * (1 - pct);
+  document.getElementById('srNum').textContent = streak;
+  if (streak === 0) {
+    document.getElementById('streakTitle').textContent  = 'Comece hoje!';
+    document.getElementById('streakSub').textContent    = 'Registre seu primeiro treino';
+  } else if (streak === 1) {
+    document.getElementById('streakTitle').textContent  = '1 dia seguido 🔥';
+    document.getElementById('streakSub').textContent    = 'Continue amanhã para manter a sequência';
+  } else {
+    document.getElementById('streakTitle').textContent  = `${streak} dias seguidos 🔥`;
+    document.getElementById('streakSub').textContent    = 'Excelente consistência! Mantenha o ritmo.';
+  }
+
+  // Próximo treino
+  renderNextTreino();
+
+  // Sparkline
+  renderSparkline();
+
+  // Donut dor
+  renderDonut();
+
+  // Tipo chart
+  renderTipoChart();
+
+  // Últimos treinos
+  renderRecent();
+}
+
+function calcStreak() {
+  const dias = [...new Set(historico.map(h => {
+    const d = new Date(h.ts); d.setHours(0,0,0,0); return d.getTime();
+  }))].sort((a,b) => b-a);
+  const hoje = new Date(); hoje.setHours(0,0,0,0);
+  let streak = 0;
+  for (let i = 0; i < dias.length; i++) {
+    const exp = hoje.getTime() - i * 86400000;
+    if (Math.abs(dias[i] - exp) < 86400000) streak++;
+    else break;
+  }
+  return streak;
+}
+
+function treinosNaSemana(semAgo) {
+  const now = Date.now();
+  const ini = now - (semAgo + 1) * 7 * 86400000;
+  const fim = now - semAgo * 7 * 86400000;
+  return historico.filter(h => h.ts >= ini && h.ts < fim).length;
+}
+
+function renderNextTreino() {
+  const el = document.getElementById('nextTreinoCard');
+  if (!historico.length) {
+    el.innerHTML = `<div class="next-card" onclick="openTreino('A')">
+      <div class="next-badge">A</div>
+      <div class="next-info">
+        <div class="next-label">Próximo treino sugerido</div>
+        <div class="next-name">Superior 01</div>
+        <div class="next-meta">7 exercícios · aquecimento ~12 min</div>
+      </div>
+      <svg class="next-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>`; return;
+  }
+  // Descobrir qual treino vem a seguir no ciclo
+  const feitos = new Set(historico.slice(0,6).map(h=>h.id));
+  const ordem  = ['A','B','C','D','E','F'];
+  let proximo  = ordem.find(id => !feitos.has(id)) || 'A';
+  const t      = TREINOS.find(x => x.id === proximo);
+  const aq     = t.tipo === 'sup' ? '~12 min' : '~8 min';
+  el.innerHTML = `<div class="next-card" onclick="openTreino('${t.id}')">
+    <div class="next-badge" style="background:${t.cor}22;color:${t.cor}">${t.id}</div>
+    <div class="next-info">
+      <div class="next-label">Próximo treino sugerido</div>
+      <div class="next-name">${t.nome}</div>
+      <div class="next-meta">${t.exercicios.length} exercícios · aquecimento ${aq}</div>
+    </div>
+    <svg class="next-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+  </div>`;
+}
+
+function renderSparkline() {
+  const el = document.getElementById('sparkline');
+  const semanas = [];
+  for (let i = 6; i >= 0; i--) semanas.push(treinosNaSemana(i));
+  const max  = Math.max(...semanas, 1);
+  const avg  = (semanas.reduce((a,b)=>a+b,0) / semanas.length).toFixed(1);
+  const lbls = ['7s','6s','5s','4s','3s','2s','1s','hoje'];
+  document.getElementById('sparkVal').textContent = avg;
+
+  const COLS = ['#00C9A7','#00C9A7','#00C9A7','#00C9A7','#00C9A7','#0097FF','#0097FF','#9B5DE5'];
+  el.innerHTML = semanas.map((v,i) => {
+    const h = Math.max(Math.round((v/max)*44), v>0?5:2);
+    return `<div class="sp-col">
+      <div class="sp-bar" style="height:${h}px;background:${COLS[i]};opacity:${i===6?1:.6}"></div>
+      <div class="sp-lbl">${v||''}</div>
+      <div class="sp-lbl">${lbls[i]}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderDonut() {
+  const total = historico.length;
+  if (!total) {
+    ['dSemPct','dLevePct','dModPct'].forEach(id => document.getElementById(id).textContent = '—');
+    return;
+  }
+  const cnt = {sem:0,leve:0,moderada:0,forte:0};
+  historico.forEach(h => { cnt[h.dor || 'sem'] = (cnt[h.dor || 'sem']||0) + 1; });
+  const sem   = cnt.sem;
+  const leve  = cnt.leve;
+  const mod   = (cnt.moderada||0) + (cnt.forte||0);
+
+  document.getElementById('dSemPct').textContent  = Math.round(sem/total*100)+'%';
+  document.getElementById('dLevePct').textContent = Math.round(leve/total*100)+'%';
+  document.getElementById('dModPct').textContent  = Math.round(mod/total*100)+'%';
+
+  // Donut SVG manual
+  const svg   = document.getElementById('donutSvg');
+  const r     = 20; const cx = 27; const cy = 27;
+  const circ  = 2 * Math.PI * r;
+  const segs  = [
+    {v: sem,  color:'#00C9A7'},
+    {v: leve, color:'#FFD166'},
+    {v: mod,  color:'#FF6B6B'},
+  ].filter(s => s.v > 0);
+
+  let offset = 0;
+  let circles = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--bg3)" stroke-width="10"/>`;
+  segs.forEach(s => {
+    const dash = (s.v / total) * circ;
+    circles += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none"
+      stroke="${s.color}" stroke-width="10" stroke-linecap="butt"
+      stroke-dasharray="${dash} ${circ - dash}"
+      stroke-dashoffset="${-offset}"
+      transform="rotate(-90 ${cx} ${cy})"/>`;
+    offset += dash;
+  });
+  svg.innerHTML = circles;
+}
+
+function renderTipoChart() {
+  const el = document.getElementById('tipoChart');
+  const tipos = {A:0,B:0,C:0,D:0,E:0,F:0};
+  historico.forEach(h => { tipos[h.id] = (tipos[h.id]||0)+1; });
+  const CORES = {A:'#0097FF',B:'#9B5DE5',C:'#0097FF',D:'#9B5DE5',E:'#0097FF',F:'#00C9A7'};
+  const max = Math.max(...Object.values(tipos), 1);
+  el.style.cssText = 'display:flex;gap:4px;align-items:flex-end;height:80px';
+  el.innerHTML = Object.entries(tipos).map(([id,v]) => {
+    const h = Math.max(Math.round((v/max)*68), v>0?6:2);
+    return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px">
+      <div style="width:100%;height:${h}px;background:${CORES[id]};border-radius:3px 3px 0 0;opacity:${v>0?1:.25}"></div>
+      <div style="font-size:9px;color:var(--text3);font-weight:700">${id}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderRecent() {
+  const el = document.getElementById('recentRow');
+  const rec = historico.slice(0, 3);
+  if (!rec.length) {
+    el.innerHTML = `<div style="font-size:12px;color:var(--text3);text-align:center;padding:16px">Nenhum treino ainda</div>`;
+    return;
+  }
+  const DOR = {sem:'Sem dor',leve:'Dor leve',moderada:'Dor mod.',forte:'Dor forte'};
+  el.innerHTML = rec.map(h => `
+    <div class="recent-item">
+      <div class="ri-badge" style="background:${h.cor}22;color:${h.cor}">${h.id}</div>
+      <div class="ri-info">
+        <div class="ri-nome">Treino ${h.id} — ${h.nome}</div>
+        <div class="ri-data">${h.data} · ${h.hora} · ${h.exFeitos}/${h.exTotal} exercícios</div>
+      </div>
+      <span class="ri-dor dor-${h.dor||'sem'}">${DOR[h.dor||'sem']}</span>
+    </div>`).join('');
+}
 
 // ══════════════════════════════════════════════════════════════════
 // EVOLUÇÃO — persistência e render
