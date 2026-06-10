@@ -334,6 +334,134 @@ a{color:inherit;text-decoration:none}
   color:var(--bg);font-size:15px;font-weight:700;
   box-shadow:0 4px 20px rgba(0,201,167,.3);
 }
+
+/* ── Evolução ─────────────────────────────────────────────────── */
+.ciclo-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:12px;
+}
+.ciclo-num{
+  font-size:11px;font-weight:700;letter-spacing:1px;
+  color:var(--text3);text-transform:uppercase;
+}
+.ciclo-dates{font-size:11px;color:var(--text3)}
+
+.ciclo-strip{
+  display:grid;grid-template-columns:repeat(6,1fr);
+  gap:6px;margin-bottom:20px;
+}
+.ciclo-day{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r-sm);padding:8px 4px;
+  text-align:center;cursor:pointer;transition:all .15s;
+  position:relative;
+}
+.ciclo-day.feito{
+  background:rgba(0,201,167,.12);
+  border-color:rgba(0,201,167,.4);
+}
+.ciclo-day.feito-parcial{
+  background:rgba(255,209,102,.08);
+  border-color:rgba(255,209,102,.3);
+}
+.ciclo-day .cd-letra{
+  font-size:18px;font-weight:800;line-height:1;
+  color:var(--text3);
+}
+.ciclo-day.feito .cd-letra{color:var(--green)}
+.ciclo-day.feito-parcial .cd-letra{color:var(--amber)}
+.ciclo-day .cd-data{font-size:9px;color:var(--text3);margin-top:3px}
+.ciclo-day .cd-exs{font-size:9px;margin-top:2px}
+.ciclo-day.feito .cd-exs{color:var(--green)}
+.ciclo-day.feito-parcial .cd-exs{color:var(--amber)}
+
+.ev-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
+.ev-stat{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r-sm);padding:12px 8px;text-align:center;
+}
+.ev-stat-val{font-size:22px;font-weight:800;color:var(--acc)}
+.ev-stat-lbl{font-size:10px;color:var(--text2);margin-top:3px}
+
+.ev-chart-wrap{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r);padding:16px;margin-bottom:20px;
+}
+.ev-chart-title{font-size:12px;font-weight:700;color:var(--text2);margin-bottom:14px}
+.bar-chart{display:flex;align-items:flex-end;gap:6px;height:80px}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.bar-fill{
+  width:100%;border-radius:4px 4px 0 0;min-height:4px;
+  background:linear-gradient(180deg,var(--acc),var(--acc2));
+  transition:height .4s ease;
+}
+.bar-label{font-size:9px;color:var(--text3);font-weight:700}
+
+.hist-entry{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r-sm);padding:12px 14px;
+  margin-bottom:8px;
+}
+.hist-top{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.hist-badge{
+  width:32px;height:32px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:800;
+}
+.hist-meta{flex:1}
+.hist-nome{font-size:13px;font-weight:600}
+.hist-data{font-size:11px;color:var(--text3);margin-top:1px}
+.hist-pills{display:flex;gap:6px;flex-wrap:wrap}
+.hist-pill{
+  font-size:10px;font-weight:600;padding:2px 8px;
+  border-radius:20px;background:var(--bg3);
+  border:1px solid var(--border);color:var(--text2);
+}
+.hist-pill.ok{background:rgba(0,201,167,.12);border-color:rgba(0,201,167,.3);color:var(--green)}
+.hist-pill.parcial{background:rgba(255,209,102,.1);border-color:rgba(255,209,102,.3);color:var(--amber)}
+
+.empty-ev{
+  text-align:center;padding:40px 20px;
+  color:var(--text3);font-size:13px;line-height:1.7;
+}
+.empty-ev .empty-icon{font-size:40px;margin-bottom:12px}
+
+.nota-overlay{
+  position:fixed;inset:0;z-index:300;
+  background:rgba(13,27,42,.97);
+  display:none;flex-direction:column;
+  padding:20px;overflow-y:auto;
+}
+.nota-overlay.show{display:flex}
+.nota-overlay h3{font-size:16px;font-weight:700;margin-bottom:16px}
+.nota-textarea{
+  width:100%;background:var(--bg3);border:1px solid var(--border);
+  border-radius:var(--r-sm);color:var(--text);
+  font-family:inherit;font-size:14px;padding:12px;
+  resize:none;min-height:120px;outline:none;
+  margin-bottom:12px;
+}
+.nota-textarea:focus{border-color:var(--acc)}
+.nota-row{display:flex;gap:8px}
+.nota-btn{
+  flex:1;padding:12px;border-radius:var(--r-sm);
+  font-size:14px;font-weight:600;
+}
+.nota-btn.save{background:var(--acc);color:var(--bg)}
+.nota-btn.cancel{background:var(--bg3);border:1px solid var(--border);color:var(--text)}
+
+.dor-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.dor-btn{
+  padding:8px 12px;border-radius:20px;font-size:12px;font-weight:600;
+  background:var(--bg3);border:1px solid var(--border);color:var(--text2);
+  transition:all .15s;
+}
+.dor-btn.sel-sem{background:rgba(0,201,167,.15);border-color:var(--green);color:var(--green)}
+.dor-btn.sel-leve{background:rgba(255,209,102,.12);border-color:var(--amber);color:var(--amber)}
+.dor-btn.sel-mod{background:rgba(255,107,107,.12);border-color:var(--red);color:var(--red)}
+.dor-btn.sel-forte{background:rgba(255,107,107,.2);border-color:var(--red);color:var(--red)}
+.nota-label{font-size:12px;color:var(--text2);margin-bottom:8px;font-weight:600}
+
 </style>
 </head>
 <body>
@@ -425,6 +553,27 @@ a{color:inherit;text-decoration:none}
       </div>
     </div>
 
+
+    <!-- EVOLUÇÃO PAGE -->
+    <div id="page-evolucao" class="page">
+      <div class="ev-stats">
+        <div class="ev-stat"><div class="ev-stat-val" id="evTotal">0</div><div class="ev-stat-lbl">Treinos feitos</div></div>
+        <div class="ev-stat"><div class="ev-stat-val" id="evCiclos">0</div><div class="ev-stat-lbl">Ciclos completos</div></div>
+        <div class="ev-stat"><div class="ev-stat-val" id="evStreak">0</div><div class="ev-stat-lbl">Dias seguidos</div></div>
+      </div>
+
+      <div class="section-title">Ciclo atual</div>
+      <div class="ciclo-strip" id="cicloStrip"></div>
+
+      <div class="ev-chart-wrap">
+        <div class="ev-chart-title">Treinos por semana (últimas 6 semanas)</div>
+        <div class="bar-chart" id="barChart"></div>
+      </div>
+
+      <div class="section-title">Histórico completo</div>
+      <div id="histList"><div class="empty-ev"><div class="empty-icon">📋</div><p>Nenhum treino registrado ainda.<br>Complete seu primeiro treino<br>para ver o histórico aqui.</p></div></div>
+    </div>
+
   </div><!-- /content -->
 
   <!-- BOTTOM NAV -->
@@ -437,6 +586,10 @@ a{color:inherit;text-decoration:none}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6.5 6.5h11M6.5 12h11M6.5 17.5h11"/><rect x="3" y="3" width="18" height="18" rx="3"/></svg>
       Treino
     </button>
+    <button class="nav-btn" id="nav-evolucao" onclick="switchPage('evolucao')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Evolução
+    </button>
     <button class="nav-btn" id="nav-info" onclick="switchPage('info')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
       Info
@@ -444,6 +597,25 @@ a{color:inherit;text-decoration:none}
   </nav>
 
 </div><!-- /app -->
+
+
+<!-- NOTA OVERLAY -->
+<div class="nota-overlay" id="notaOverlay">
+  <h3 id="notaTitle">Registrar treino</h3>
+  <div class="nota-label">Dor nos ombros durante o treino?</div>
+  <div class="dor-row">
+    <button class="dor-btn" id="dSem"   onclick="selDor('sem')">Sem dor</button>
+    <button class="dor-btn" id="dLeve"  onclick="selDor('leve')">Leve</button>
+    <button class="dor-btn" id="dMod"   onclick="selDor('moderada')">Moderada</button>
+    <button class="dor-btn" id="dForte" onclick="selDor('forte')">Forte</button>
+  </div>
+  <div class="nota-label">Observações (opcional)</div>
+  <textarea class="nota-textarea" id="notaTexto" placeholder="Ex: aumentei carga no supino, ombro esquerdo travou na elevação lateral..."></textarea>
+  <div class="nota-row">
+    <button class="nota-btn cancel" onclick="closeNota()">Cancelar</button>
+    <button class="nota-btn save"   onclick="saveNota()">Salvar registro</button>
+  </div>
+</div>
 
 <!-- TIMER OVERLAY -->
 <div class="timer-overlay" id="timerOverlay">
@@ -580,7 +752,8 @@ let totalDone = parseInt(localStorage.getItem('totalDone') || '0');
 function init() {
   renderDayGrid();
   renderSubList();
-  document.getElementById('statDone').textContent = totalDone;
+  renderEvolucao();
+  document.getElementById('statDone').textContent = historico.length || totalDone;
 }
 
 // ── Day Grid ────────────────────────────────────────────────────────
@@ -736,14 +909,17 @@ function showDone() {
   const t = currentTreino;
   document.getElementById('exList').style.display = 'none';
   document.getElementById('doneScreen').classList.add('show');
+  const exFeitos = (checked[t.id] || new Set()).size;
+  const exTotal  = t.exercicios.length;
   if (!doneDays.includes(t.id)) {
     doneDays.push(t.id);
     totalDone++;
     localStorage.setItem('doneDays', JSON.stringify(doneDays));
     localStorage.setItem('totalDone', totalDone);
-    document.getElementById('statDone').textContent = totalDone;
   }
   renderDayGrid();
+  // abre overlay de nota após 600ms
+  setTimeout(() => abrirNota(t.id, exFeitos, exTotal), 600);
 }
 
 // ── Sub List ────────────────────────────────────────────────────────
@@ -765,6 +941,7 @@ function goHome() {
   document.getElementById('nav-home').classList.add('active');
   document.getElementById('nav-treino').classList.remove('active');
   document.getElementById('nav-info').classList.remove('active');
+  document.getElementById('nav-evolucao').classList.remove('active');
 }
 
 function switchPage(name) {
@@ -780,7 +957,7 @@ function switchPage(name) {
     return;
   }
   showPage(name);
-  ['home','treino','info'].forEach(n => {
+  ['home','treino','evolucao','info'].forEach(n => {
     document.getElementById('nav-'+n)?.classList[n===name?'add':'remove']('active');
   });
   if (name !== 'treino') document.getElementById('topTitle').textContent = 'Treino ABCDEF';
@@ -820,6 +997,178 @@ function startTimer(secs) {
 function closeTimer() {
   clearInterval(timerInterval);
   document.getElementById('timerOverlay').classList.remove('show');
+}
+
+
+// ══════════════════════════════════════════════════════════════════
+// EVOLUÇÃO — persistência e render
+// ══════════════════════════════════════════════════════════════════
+// Schema: historico = [{id, nome, data, exTotal, exFeitos, dor, nota, ts}]
+let historico = JSON.parse(localStorage.getItem('historico') || '[]');
+let notaContext = null; // {treinoId, exFeitos, exTotal}
+let dorSelecionada = 'sem';
+
+function saveHistorico() {
+  localStorage.setItem('historico', JSON.stringify(historico));
+}
+
+// Chamado ao completar treino — abre overlay de nota
+function abrirNota(treinoId, exFeitos, exTotal) {
+  const t = TREINOS.find(x => x.id === treinoId);
+  notaContext = {treinoId, exFeitos, exTotal};
+  dorSelecionada = 'sem';
+  document.getElementById('notaTitle').textContent = `Treino ${treinoId} — ${t.nome}`;
+  document.getElementById('notaTexto').value = '';
+  ['Sem','Leve','Mod','Forte'].forEach(d => {
+    document.getElementById('d'+d).className = 'dor-btn';
+  });
+  document.getElementById('dSem').classList.add('sel-sem');
+  document.getElementById('notaOverlay').classList.add('show');
+}
+
+function selDor(val) {
+  dorSelecionada = val;
+  const map = {sem:'dSem sel-sem', leve:'dLeve sel-leve',
+                moderada:'dMod sel-mod', forte:'dForte sel-forte'};
+  ['dSem','dLeve','dMod','dForte'].forEach(id => {
+    document.getElementById(id).className = 'dor-btn';
+  });
+  const [id, cls] = map[val].split(' ');
+  document.getElementById(id).classList.add(cls);
+}
+
+function saveNota() {
+  if (!notaContext) return;
+  const {treinoId, exFeitos, exTotal} = notaContext;
+  const t = TREINOS.find(x => x.id === treinoId);
+  const now = new Date();
+  const entry = {
+    id:      treinoId,
+    nome:    t.nome,
+    data:    now.toLocaleDateString('pt-BR'),
+    hora:    now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),
+    exTotal: exTotal,
+    exFeitos:exFeitos,
+    dor:     dorSelecionada,
+    nota:    document.getElementById('notaTexto').value.trim(),
+    ts:      now.getTime(),
+    cor:     t.cor,
+  };
+  historico.unshift(entry);
+  saveHistorico();
+  closeNota();
+  renderEvolucao();
+}
+
+function closeNota() {
+  document.getElementById('notaOverlay').classList.remove('show');
+  notaContext = null;
+}
+
+// ── Render Evolução ─────────────────────────────────────────────
+function renderEvolucao() {
+  renderEvStats();
+  renderCicloStrip();
+  renderBarChart();
+  renderHistList();
+}
+
+function renderEvStats() {
+  const total  = historico.length;
+  const ciclos = Math.floor(historico.filter(h=>h.exFeitos===h.exTotal).length / 6);
+
+  // streak: dias consecutivos com ao menos 1 treino
+  let streak = 0;
+  const hoje = new Date(); hoje.setHours(0,0,0,0);
+  const dias = [...new Set(historico.map(h => {
+    const d = new Date(h.ts); d.setHours(0,0,0,0); return d.getTime();
+  }))].sort((a,b)=>b-a);
+  for (let i=0; i<dias.length; i++) {
+    const expected = hoje.getTime() - i*86400000;
+    if (Math.abs(dias[i] - expected) < 86400000) streak++;
+    else break;
+  }
+
+  document.getElementById('evTotal').textContent  = total;
+  document.getElementById('evCiclos').textContent = ciclos;
+  document.getElementById('evStreak').textContent = streak;
+  document.getElementById('statDone').textContent = total;
+}
+
+function renderCicloStrip() {
+  const strip = document.getElementById('cicloStrip');
+  const dias = ['A','B','C','D','E','F'];
+  // achar últimas ocorrências de cada dia
+  const last = {};
+  historico.forEach(h => { if (!last[h.id]) last[h.id] = h; });
+
+  strip.innerHTML = dias.map(id => {
+    const h = last[id];
+    const feito = h && h.exFeitos === h.exTotal;
+    const parcial = h && h.exFeitos < h.exTotal;
+    const cls = feito ? 'feito' : parcial ? 'feito-parcial' : '';
+    const data = h ? h.data : '—';
+    const exs  = h ? `${h.exFeitos}/${h.exTotal}` : '';
+    return `<div class="ciclo-day ${cls}">
+      <div class="cd-letra">${id}</div>
+      <div class="cd-data">${data}</div>
+      <div class="cd-exs">${exs}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderBarChart() {
+  const chart = document.getElementById('barChart');
+  // agrupar por semana (últimas 6)
+  const semanas = [];
+  const now = Date.now();
+  for (let i=5; i>=0; i--) {
+    const ini = now - (i+1)*7*86400000;
+    const fim = now - i*7*86400000;
+    const count = historico.filter(h => h.ts >= ini && h.ts < fim).length;
+    const label = i===0 ? 'hoje' : `${i}s`;
+    semanas.push({count, label});
+  }
+  const max = Math.max(...semanas.map(s=>s.count), 1);
+  chart.innerHTML = semanas.map(s => {
+    const h = Math.max(Math.round((s.count/max)*72), s.count>0?6:2);
+    return `<div class="bar-col">
+      <div class="bar-fill" style="height:${h}px"></div>
+      <div class="bar-label">${s.count||''}</div>
+      <div class="bar-label">${s.label}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderHistList() {
+  const el = document.getElementById('histList');
+  if (!historico.length) {
+    el.innerHTML = `<div class="empty-ev"><div class="empty-icon">📋</div><p>Nenhum treino registrado ainda.<br>Complete seu primeiro treino<br>para ver o histórico aqui.</p></div>`;
+    return;
+  }
+
+  const DOR_LABEL = {sem:'Sem dor',leve:'Dor leve',moderada:'Dor moderada',forte:'Dor forte'};
+  const DOR_CLS   = {sem:'ok',leve:'parcial',moderada:'',forte:''};
+
+  el.innerHTML = historico.map((h,i) => {
+    const completo = h.exFeitos === h.exTotal;
+    const dorLbl   = DOR_LABEL[h.dor] || 'Sem dor';
+    const dorCls   = DOR_CLS[h.dor]   || '';
+    return `<div class="hist-entry">
+      <div class="hist-top">
+        <div class="hist-badge" style="background:${h.cor}22;color:${h.cor}">${h.id}</div>
+        <div class="hist-meta">
+          <div class="hist-nome">Treino ${h.id} — ${h.nome}</div>
+          <div class="hist-data">${h.data} às ${h.hora}</div>
+        </div>
+      </div>
+      <div class="hist-pills">
+        <span class="hist-pill ${completo?'ok':'parcial'}">${h.exFeitos}/${h.exTotal} exercícios</span>
+        <span class="hist-pill ${dorCls}">${dorLbl}</span>
+        ${h.nota ? `<span class="hist-pill" style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">📝 ${h.nota}</span>` : ''}
+      </div>
+    </div>`;
+  }).join('');
 }
 
 // ══════════════════════════════════════════════════════════════════
