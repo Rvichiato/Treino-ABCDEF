@@ -109,6 +109,59 @@ a{color:inherit;text-decoration:none}
 }
 .card-sm{padding:12px;margin-bottom:8px;border-radius:var(--r-sm)}
 
+
+/* ── Cronômetro de treino ────────────────────────────────────── */
+.chrono-bar{
+  display:flex;align-items:center;gap:10px;
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:var(--r-sm);padding:10px 14px;
+  margin-bottom:14px;
+}
+.chrono-display{
+  font-size:22px;font-weight:800;letter-spacing:1px;
+  color:var(--acc);font-variant-numeric:tabular-nums;flex:1;
+}
+.chrono-display.running{color:var(--green)}
+.chrono-display.stopped{color:var(--amber)}
+.chrono-btn{
+  padding:8px 14px;border-radius:var(--r-sm);
+  font-size:12px;font-weight:700;transition:all .15s;
+}
+.chrono-btn:active{transform:scale(.95)}
+.chrono-btn.start{background:rgba(0,201,167,.2);border:1px solid rgba(0,201,167,.4);color:var(--green)}
+.chrono-btn.stop {background:rgba(255,209,102,.15);border:1px solid rgba(255,209,102,.3);color:var(--amber)}
+.chrono-btn.finish{background:rgba(255,107,107,.15);border:1px solid rgba(255,107,107,.3);color:var(--red)}
+
+.summary-overlay{
+  position:fixed;inset:0;z-index:250;
+  background:rgba(13,27,42,.97);
+  display:none;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:16px;padding:32px 24px;text-align:center;
+}
+.summary-overlay.show{display:flex}
+.summary-icon{font-size:56px;line-height:1}
+.summary-title{font-size:24px;font-weight:800}
+.summary-time{
+  font-size:52px;font-weight:800;letter-spacing:-2px;
+  color:var(--acc);line-height:1;
+}
+.summary-sub{font-size:14px;color:var(--text2)}
+.summary-chips{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:4px}
+.summary-chip{
+  padding:8px 16px;border-radius:20px;
+  font-size:13px;font-weight:600;
+  background:var(--bg3);border:1px solid var(--border);
+}
+.summary-chip.good{background:rgba(0,201,167,.12);border-color:rgba(0,201,167,.3);color:var(--green)}
+.summary-actions{display:flex;gap:10px;margin-top:8px;width:100%}
+.sum-btn{
+  flex:1;padding:14px;border-radius:var(--r-sm);
+  font-size:14px;font-weight:700;
+}
+.sum-btn.primary{background:linear-gradient(135deg,var(--acc),var(--acc2));color:var(--bg)}
+.sum-btn.secondary{background:var(--bg3);border:1px solid var(--border);color:var(--text)}
+
 /* ── Treino Day Grid ─────────────────────────────────────────── */
 .day-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
 .day-card{
@@ -740,6 +793,14 @@ a{color:inherit;text-decoration:none}
         </div>
       </div>
 
+      <!-- Cronômetro -->
+      <div class="chrono-bar">
+        <div class="chrono-display" id="chronoDisplay">00:00:00</div>
+        <button class="chrono-btn start" id="chronoBtnStart" onclick="chronoStart()">▶ Iniciar</button>
+        <button class="chrono-btn stop"  id="chronoBtnStop"  onclick="chronoStop()"  style="display:none">⏸ Pausar</button>
+        <button class="chrono-btn finish" id="chronoBtnFinish" onclick="chronoFinish()" style="display:none">⏹ Finalizar</button>
+      </div>
+
       <div class="prog-label">
         <span id="progLabel">0 de 0 exercícios</span>
         <span id="progPct">0%</span>
@@ -843,6 +904,20 @@ a{color:inherit;text-decoration:none}
   </div>
 </div>
 
+
+<!-- SUMMARY OVERLAY -->
+<div class="summary-overlay" id="summaryOverlay">
+  <div class="summary-icon">🏆</div>
+  <div class="summary-title">Treino finalizado!</div>
+  <div class="summary-time" id="sumTime">00:00:00</div>
+  <div class="summary-sub" id="sumSub">Tempo total de treino</div>
+  <div class="summary-chips" id="sumChips"></div>
+  <div class="summary-actions">
+    <button class="sum-btn secondary" onclick="closeSummary()">Fechar</button>
+    <button class="sum-btn primary"   onclick="closeSummaryAndNote()">Registrar treino</button>
+  </div>
+</div>
+
 <!-- TIMER OVERLAY -->
 <div class="timer-overlay" id="timerOverlay">
   <div style="font-size:14px;color:var(--text2);font-weight:600">DESCANSO</div>
@@ -885,59 +960,92 @@ const TREINOS = [
   {
     id:"A", nome:"Superior 01", tipo:"sup", cor:"#0097FF",
     exercicios:[
-      {nome:"Supino Inclinado c/ Halteres 30°", status:"ADAPTAR",    series:"4", reps:"8–12",  obs:"Era Supino Inclinado no Smith. Halteres permitem rotação natural do ombro."},
-      {nome:"Landmine Press (Barra no Canto)",   status:"SUBSTITUIR", series:"3", reps:"10–12", obs:"Era Supino Sentado. Ângulo 45° elimina o impacto subacromial."},
-      {nome:"Press Neutro c/ Halteres até 80°",  status:"SUBSTITUIR", series:"3", reps:"10–12", obs:"Era Desenvolvimento no Smith. Parar antes do arco de dor."},
-      {nome:"Remada Cavalo",                      status:"MANTER",     series:"4", reps:"8–12",  obs:"Pegada neutra — cotovelo não deve abrir além de 45°."},
-      {nome:"Elevação Lateral (Cabo) até 70°",   status:"ADAPTAR",    series:"3", reps:"15–20", obs:"Carga LEVE. Polegar levemente p/ cima. Não ultrapassar linha do ombro."},
-      {nome:"Rosca Direta Barra W",               status:"MANTER",     series:"3", reps:"10–12", obs:"Pegada semi-pronada — protege o tendão do bíceps."},
-      {nome:"Tríceps na Polia (Corda/Neutro)",    status:"MANTER",     series:"3", reps:"12–15", obs:"Usar corda ou handle neutro. Evitar barra reta."},
+      // 1º Composto mais pesado de peito (maior massa, mais força disponível)
+      {nome:"Supino Inclinado c/ Halteres 30°", status:"ADAPTAR",    series:"4", reps:"8–12",  obs:"Composto principal. Halteres permitem rotação natural do ombro."},
+      // 2º Composto de costas (antagonista — equilibra o ombro)
+      {nome:"Remada Cavalo",                     status:"MANTER",     series:"4", reps:"8–12",  obs:"Composto costas. Pegada neutra — cotovelo não deve abrir além de 45°."},
+      // 3º Segundo composto de peito/ombro (carga já um pouco menor)
+      {nome:"Landmine Press (Barra no Canto)",   status:"SUBSTITUIR", series:"3", reps:"10–12", obs:"Press complementar. Ângulo 45° elimina o impacto subacromial."},
+      // 4º Press de ombro (composto menor, ombro já aquecido dos anteriores)
+      {nome:"Press Neutro c/ Halteres até 80°",  status:"SUBSTITUIR", series:"3", reps:"10–12", obs:"Press ombro. Parar antes do arco de dor. Carga moderada."},
+      // 5º Bíceps (isolado braço — não compromete os compostos anteriores)
+      {nome:"Rosca Direta Barra W",               status:"MANTER",     series:"3", reps:"10–12", obs:"Isolado bíceps. Pegada semi-pronada — protege o tendão."},
+      // 6º Tríceps (isolado braço)
+      {nome:"Tríceps na Polia (Corda/Neutro)",    status:"MANTER",     series:"3", reps:"12–15", obs:"Isolado tríceps. Usar corda ou handle neutro."},
+      // 7º Elevação lateral por ÚLTIMO — já fatigado = carga menor = menos risco subacromial
+      {nome:"Elevação Lateral (Cabo) até 70°",   status:"ADAPTAR",    series:"3", reps:"15–20", obs:"⚠ ÚLTIMO — intencionalmente. Ombro pré-fatigado = carga menor = menor risco."},
     ]
   },
   {
     id:"B", nome:"Inferior 01", tipo:"inf", cor:"#9B5DE5",
     exercicios:[
-      {nome:"Cadeira Extensora",               status:"MANTER", series:"4", reps:"12–15", obs:"Iniciar leve nas primeiras séries — aquecimento articular."},
-      {nome:"Leg Press 45°",                   status:"MANTER", series:"4", reps:"8–12",  obs:"Atenção ao apoio dos braços: não forçar ombro."},
-      {nome:"Agachamento Hack",                status:"MANTER", series:"4", reps:"8–12",  obs:"Preferir apoio de ombros acolchoado."},
+      // 1º Composto mais pesado (pernas — maior grupo muscular)
+      {nome:"Agachamento Hack",                status:"MANTER", series:"4", reps:"8–12",  obs:"Composto principal. Preferir apoio de ombros acolchoado."},
+      // 2º Segundo composto pesado
+      {nome:"Leg Press 45°",                   status:"MANTER", series:"4", reps:"8–12",  obs:"Composto complementar. Atenção ao apoio dos braços."},
+      // 3º Posterior de coxa (composto)
+      {nome:"Mesa Flexora",                    status:"MANTER", series:"4", reps:"10–12", obs:"Posterior de coxa."},
+      // 4º Isolado de extensão (quadríceps já fatigado = menor carga articular)
+      {nome:"Cadeira Extensora",               status:"MANTER", series:"4", reps:"12–15", obs:"Isolado finalizador de quadríceps."},
+      // 5º Adutora (isolado)
       {nome:"Cadeira Adutora",                 status:"MANTER", series:"3", reps:"12–15", obs:""},
-      {nome:"Mesa Flexora",                    status:"MANTER", series:"4", reps:"10–12", obs:""},
+      // 6º Panturrilha (sempre por último — músculo tônico, não interfere nos compostos)
       {nome:"Elevação de Panturrilha Sentado", status:"MANTER", series:"4", reps:"15–20", obs:"Amplitude total — calcanhar abaixo do degrau."},
     ]
   },
   {
     id:"C", nome:"Superior 02", tipo:"sup", cor:"#0097FF",
     exercicios:[
-      {nome:"Puxada c/ Pega Inversa (Supinada)",    status:"MANTER",     series:"4", reps:"8–12",  obs:"Escolha ideal — reduz impacto no labrum do ombro direito."},
-      {nome:"Puxada Alta na Polia (Handle Neutro)",  status:"ADAPTAR",    series:"3", reps:"10–12", obs:"Usar triângulo ou handle paralelo. Evitar pegada pronada aberta."},
-      {nome:"Remada Iso-Lateral (Máquina)",          status:"MANTER",     series:"4", reps:"8–12",  obs:"Usar pegada neutra se disponível."},
-      {nome:"Crucifixo c/ Halter (Amplitude Red.)",  status:"ADAPTAR",    series:"3", reps:"12–15", obs:"Carga moderada. Parar quando cotovelo atingir linha do ombro."},
-      {nome:"Supino Inclinado c/ Halteres 30°",     status:"ADAPTAR",    series:"4", reps:"8–12",  obs:"Era Supino Inclinado no Smith. Mesma substituição do Treino A."},
-      {nome:"Press Neutro c/ Halteres até 80°",     status:"SUBSTITUIR", series:"3", reps:"10–12", obs:"Era Desenvolvimento no Smith. Mesma substituição do Treino A."},
-      {nome:"Elev. Lateral Unilateral (Cabo) 70°",  status:"ADAPTAR",    series:"3", reps:"15–20", obs:"Volume reduzido vs. A e E. Carga LEVE."},
+      // 1º Composto pesado de costas (maior massa)
+      {nome:"Puxada c/ Pega Inversa (Supinada)",    status:"MANTER",     series:"4", reps:"8–12",  obs:"Composto principal costas. Reduz impacto no labrum direito."},
+      // 2º Segundo composto de costas
+      {nome:"Remada Iso-Lateral (Máquina)",          status:"MANTER",     series:"4", reps:"8–12",  obs:"Composto costas. Usar pegada neutra se disponível."},
+      // 3º Composto de peito (antagonista — equilíbrio do ombro)
+      {nome:"Supino Inclinado c/ Halteres 30°",     status:"ADAPTAR",    series:"4", reps:"8–12",  obs:"Composto peito. Halteres permitem rotação natural."},
+      // 4º Puxada complementar
+      {nome:"Puxada Alta na Polia (Handle Neutro)",  status:"ADAPTAR",    series:"3", reps:"10–12", obs:"Puxada complementar. Handle neutro ou supinada."},
+      // 5º Press ombro (composto menor)
+      {nome:"Press Neutro c/ Halteres até 80°",     status:"SUBSTITUIR", series:"3", reps:"10–12", obs:"Press ombro. Parar antes do arco de dor."},
+      // 6º Crucifixo (isolado peito)
+      {nome:"Crucifixo c/ Halter (Amplitude Red.)",  status:"ADAPTAR",    series:"3", reps:"12–15", obs:"Isolado peito. Cotovelo leve flexão, parar na linha do ombro."},
+      // 7º Elevação lateral por ÚLTIMO
+      {nome:"Elev. Lateral Unilateral (Cabo) 70°",  status:"ADAPTAR",    series:"3", reps:"15–20", obs:"⚠ ÚLTIMO — intencionalmente. Carga LEVE, limite 70°."},
     ]
   },
   {
     id:"D", nome:"Inferior 02", tipo:"inf", cor:"#9B5DE5",
     exercicios:[
-      {nome:"Mesa Flexora",                    status:"MANTER",  series:"4", reps:"10–12", obs:""},
-      {nome:"Stiff c/ Barra",                  status:"ADAPTAR", series:"4", reps:"8–12",  obs:"Monitorar dor no ombro. Se houver, substituir por Stiff c/ Halteres."},
-      {nome:"Leg Press Horizontal",            status:"MANTER",  series:"4", reps:"8–12",  obs:""},
-      {nome:"Cadeira Extensora",               status:"MANTER",  series:"3", reps:"12–15", obs:"Finalizador — carga mais leve que no Treino B."},
+      // 1º Composto posterior mais pesado
+      {nome:"Stiff c/ Barra",                  status:"ADAPTAR", series:"4", reps:"8–12",  obs:"Composto principal posterior. Monitorar dor no ombro."},
+      // 2º Composto de quadríceps
+      {nome:"Leg Press Horizontal",            status:"MANTER",  series:"4", reps:"8–12",  obs:"Composto quadríceps."},
+      // 3º Isolado posterior
+      {nome:"Mesa Flexora",                    status:"MANTER",  series:"4", reps:"10–12", obs:"Isolado posterior de coxa."},
+      // 4º Isolado quadríceps (finalizador)
+      {nome:"Cadeira Extensora",               status:"MANTER",  series:"3", reps:"12–15", obs:"Isolado finalizador — carga mais leve que no Treino B."},
+      // 5º Adutora
       {nome:"Cadeira Adutora",                 status:"MANTER",  series:"3", reps:"12–15", obs:""},
+      // 6º Panturrilha
       {nome:"Elevação de Panturrilha Sentado", status:"MANTER",  series:"4", reps:"15–20", obs:""},
     ]
   },
   {
     id:"E", nome:"Superior 03", tipo:"sup", cor:"#0097FF",
     exercicios:[
-      {nome:"Face Pull c/ Corda",                   status:"SUBSTITUIR", series:"3", reps:"15–20", obs:"Era Elevação Frontal. Trabalha posterior + rotadores externos."},
-      {nome:"Press Neutro c/ Halteres até 80°",    status:"SUBSTITUIR", series:"3", reps:"10–12", obs:"Era Desenvolvimento no Smith — 3ª aparição. Volume excessivo removido."},
-      {nome:"Elev. Lateral Unilateral (Cabo) 70°", status:"ADAPTAR",    series:"3", reps:"15–20", obs:"Carga LEVE, limite 70°, polegar p/ cima."},
-      {nome:"Supino Inclinado c/ Halteres 30°",    status:"SUBSTITUIR", series:"4", reps:"8–12",  obs:"Era Supino Declinado c/ Barra — maior compressão AC substituída."},
-      {nome:"Puxada Alta na Polia (Handle Neutro)", status:"ADAPTAR",    series:"3", reps:"10–12", obs:"Handle neutro ou supinada. Evitar pronada aberta."},
-      {nome:"Tríceps Polia (Corda/Neutro)",         status:"MANTER",     series:"3", reps:"12–15", obs:""},
-      {nome:"Rosca Direta na Polia",                status:"MANTER",     series:"3", reps:"10–12", obs:""},
+      // 1º Composto peito (maior força disponível)
+      {nome:"Supino Inclinado c/ Halteres 30°",    status:"SUBSTITUIR", series:"4", reps:"8–12",  obs:"Composto principal. Era Declinado c/ Barra."},
+      // 2º Composto costas (antagonista)
+      {nome:"Puxada Alta na Polia (Handle Neutro)", status:"ADAPTAR",    series:"3", reps:"10–12", obs:"Composto costas. Handle neutro ou supinada."},
+      // 3º Press ombro (composto menor)
+      {nome:"Press Neutro c/ Halteres até 80°",    status:"SUBSTITUIR", series:"3", reps:"10–12", obs:"Press ombro. Parar antes do arco de dor."},
+      // 4º Tríceps (isolado)
+      {nome:"Tríceps Polia (Corda/Neutro)",         status:"MANTER",     series:"3", reps:"12–15", obs:"Isolado tríceps."},
+      // 5º Bíceps (isolado)
+      {nome:"Rosca Direta na Polia",                status:"MANTER",     series:"3", reps:"10–12", obs:"Isolado bíceps."},
+      // 6º Face Pull (ativação dos rotadores — melhor com ombro já aquecido)
+      {nome:"Face Pull c/ Corda",                   status:"SUBSTITUIR", series:"3", reps:"15–20", obs:"Rotadores externos. Melhor executado com ombro aquecido."},
+      // 7º Elevação lateral por ÚLTIMO
+      {nome:"Elev. Lateral Unilateral (Cabo) 70°", status:"ADAPTAR",    series:"3", reps:"15–20", obs:"⚠ ÚLTIMO — intencionalmente. Carga LEVE, limite 70°."},
     ]
   },
   {
@@ -1025,6 +1133,7 @@ function openTreino(id) {
 
   document.getElementById('doneScreen').classList.remove('show');
   document.getElementById('exList').style.display = '';
+  chronoReset();
 
   showPage('treino');
   ['home','selecao','evolucao','info'].forEach(n => {
@@ -1144,8 +1253,6 @@ function showDone() {
   const t = currentTreino;
   document.getElementById('exList').style.display = 'none';
   document.getElementById('doneScreen').classList.add('show');
-  const exFeitos = (checked[t.id] || new Set()).size;
-  const exTotal  = t.exercicios.length;
   if (!doneDays.includes(t.id)) {
     doneDays.push(t.id);
     totalDone++;
@@ -1153,8 +1260,13 @@ function showDone() {
     localStorage.setItem('totalDone', totalDone);
   }
   renderDayGrid();
-  // abre overlay de nota após 600ms
-  setTimeout(() => abrirNota(t.id, exFeitos, exTotal), 600);
+  // Se cronômetro rodando, abre summary; senão abre nota diretamente
+  if (chronoSeconds > 0) {
+    setTimeout(() => chronoFinish(), 400);
+  } else {
+    const exFeitos = (checked[t.id] || new Set()).size;
+    setTimeout(() => abrirNota(t.id, exFeitos, t.exercicios.length), 400);
+  }
 }
 
 // ── Sub List ────────────────────────────────────────────────────────
@@ -1226,7 +1338,7 @@ function startTimer(secs) {
     numEl.textContent = remaining;
     const offset = CIRCUMFERENCE * (1 - remaining / secs);
     circleEl.style.strokeDashoffset = offset;
-    if (remaining <= 0) closeTimer();
+    if (remaining <= 0) closeTimerWithBeep();
   }, 1000);
 }
 
@@ -1235,7 +1347,135 @@ function closeTimer() {
   document.getElementById('timerOverlay').classList.remove('show');
 }
 
+function closeTimerWithBeep() {
+  playBeep();
+  closeTimer();
+}
 
+
+
+
+// ══════════════════════════════════════════════════════════════════
+// CRONÔMETRO DE TREINO
+// ══════════════════════════════════════════════════════════════════
+let chronoInterval = null;
+let chronoSeconds  = 0;
+let chronoRunning  = false;
+let chronoStartTs  = null;
+
+function chronoFmt(s) {
+  const h = String(Math.floor(s / 3600)).padStart(2,'0');
+  const m = String(Math.floor((s % 3600) / 60)).padStart(2,'0');
+  const sc = String(s % 60).padStart(2,'0');
+  return `${h}:${m}:${sc}`;
+}
+
+function chronoStart() {
+  if (chronoRunning) return;
+  chronoRunning  = true;
+  if (!chronoStartTs) chronoStartTs = Date.now();
+  document.getElementById('chronoDisplay').className = 'chrono-display running';
+  document.getElementById('chronoBtnStart').style.display  = 'none';
+  document.getElementById('chronoBtnStop').style.display   = '';
+  document.getElementById('chronoBtnFinish').style.display = '';
+  chronoInterval = setInterval(() => {
+    chronoSeconds++;
+    document.getElementById('chronoDisplay').textContent = chronoFmt(chronoSeconds);
+  }, 1000);
+}
+
+function chronoStop() {
+  if (!chronoRunning) return;
+  chronoRunning = false;
+  clearInterval(chronoInterval);
+  document.getElementById('chronoDisplay').className = 'chrono-display stopped';
+  document.getElementById('chronoBtnStart').style.display = '';
+  document.getElementById('chronoBtnStart').textContent   = '▶ Retomar';
+  document.getElementById('chronoBtnStop').style.display  = 'none';
+}
+
+function chronoReset() {
+  clearInterval(chronoInterval);
+  chronoRunning  = false;
+  chronoSeconds  = 0;
+  chronoStartTs  = null;
+  document.getElementById('chronoDisplay').textContent = '00:00:00';
+  document.getElementById('chronoDisplay').className   = 'chrono-display';
+  document.getElementById('chronoBtnStart').style.display  = '';
+  document.getElementById('chronoBtnStart').textContent    = '▶ Iniciar';
+  document.getElementById('chronoBtnStop').style.display   = 'none';
+  document.getElementById('chronoBtnFinish').style.display = 'none';
+}
+
+function chronoFinish() {
+  chronoStop();
+  const t    = currentTreino;
+  const done = (checked[t.id] || new Set()).size;
+  const tot  = t.exercicios.length;
+  const pct  = Math.round(done / tot * 100);
+
+  document.getElementById('sumTime').textContent = chronoFmt(chronoSeconds);
+  document.getElementById('sumSub').textContent  = `Treino ${t.id} — ${t.nome}`;
+
+  const chips = [];
+  chips.push({label: `${done}/${tot} exercícios (${pct}%)`, good: done === tot});
+  if (chronoSeconds < 3600) chips.push({label:'Treino focado ⚡', good:true});
+  else if (chronoSeconds < 5400) chips.push({label:'Ótimo volume 💪', good:true});
+  else chips.push({label:'Treino longo — hidrate-se!', good:false});
+
+  document.getElementById('sumChips').innerHTML = chips.map(c =>
+    `<div class="summary-chip ${c.good?'good':''}">${c.label}</div>`
+  ).join('');
+
+  document.getElementById('summaryOverlay').classList.add('show');
+}
+
+function closeSummary() {
+  document.getElementById('summaryOverlay').classList.remove('show');
+  chronoReset();
+}
+
+function closeSummaryAndNote() {
+  document.getElementById('summaryOverlay').classList.remove('show');
+  const t = currentTreino;
+  const done = (checked[t.id] || new Set()).size;
+  const tot  = t.exercicios.length;
+  // salvar tempo no contexto para incluir no historico
+  window._lastChronoSecs = chronoSeconds;
+  chronoReset();
+  abrirNota(t.id, done, tot);
+}
+
+// ══════════════════════════════════════════════════════════════════
+// SINAL SONORO — Web Audio API (sem arquivos externos)
+// ══════════════════════════════════════════════════════════════════
+function playBeep() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+    // 3 bipes curtos seguidos de 1 longo
+    const beeps = [
+      {freq:880, start:0,    dur:.1},
+      {freq:880, start:.15,  dur:.1},
+      {freq:880, start:.30,  dur:.1},
+      {freq:1047,start:.50,  dur:.4},
+    ];
+
+    beeps.forEach(b => {
+      const osc  = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type      = 'sine';
+      osc.frequency.value = b.freq;
+      gain.gain.setValueAtTime(0, ctx.currentTime + b.start);
+      gain.gain.linearRampToValueAtTime(.4, ctx.currentTime + b.start + .01);
+      gain.gain.linearRampToValueAtTime(0,  ctx.currentTime + b.start + b.dur);
+      osc.start(ctx.currentTime + b.start);
+      osc.stop(ctx.currentTime  + b.start + b.dur + .05);
+    });
+  } catch(e) { /* silencioso em browsers sem Web Audio */ }
+}
 
 // ══════════════════════════════════════════════════════════════════
 // HOME DASHBOARD
@@ -1431,7 +1671,7 @@ function renderRecent() {
       <div class="ri-badge" style="background:${h.cor}22;color:${h.cor}">${h.id}</div>
       <div class="ri-info">
         <div class="ri-nome">Treino ${h.id} — ${h.nome}</div>
-        <div class="ri-data">${h.data} · ${h.hora} · ${h.exFeitos}/${h.exTotal} exercícios</div>
+        <div class="ri-data">${h.data} · ${h.hora}${h.durSecs?' · ⏱ '+chronoFmt(h.durSecs):''} · ${h.exFeitos}/${h.exTotal} exerc.</div>
       </div>
       <span class="ri-dor dor-${h.dor||'sem'}">${DOR[h.dor||'sem']}</span>
     </div>`).join('');
@@ -1490,7 +1730,9 @@ function saveNota() {
     nota:    document.getElementById('notaTexto').value.trim(),
     ts:      now.getTime(),
     cor:     t.cor,
+    durSecs: window._lastChronoSecs || 0,
   };
+  window._lastChronoSecs = 0;
   historico.unshift(entry);
   saveHistorico();
   closeNota();
@@ -1601,6 +1843,7 @@ function renderHistList() {
       </div>
       <div class="hist-pills">
         <span class="hist-pill ${completo?'ok':'parcial'}">${h.exFeitos}/${h.exTotal} exercícios</span>
+        ${h.durSecs ? `<span class="hist-pill ok">⏱ ${chronoFmt(h.durSecs)}</span>` : ''}
         <span class="hist-pill ${dorCls}">${dorLbl}</span>
         ${h.nota ? `<span class="hist-pill" style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">📝 ${h.nota}</span>` : ''}
       </div>
