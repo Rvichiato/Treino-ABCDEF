@@ -162,55 +162,6 @@ a{color:inherit;text-decoration:none}
 .sum-btn.primary{background:linear-gradient(135deg,var(--acc),var(--acc2));color:var(--bg)}
 .sum-btn.secondary{background:var(--bg3);border:1px solid var(--border);color:var(--text)}
 
-
-/* ── Campo de carga ──────────────────────────────────────────── */
-.carga-row{
-  display:flex;align-items:center;gap:8px;
-  margin-top:10px;padding:10px;
-  background:var(--bg4);border:1px solid var(--border);
-  border-radius:var(--r-sm);
-}
-.carga-row label{font-size:12px;color:var(--text2);font-weight:600;white-space:nowrap}
-.carga-input{
-  flex:1;background:var(--bg3);border:1px solid var(--border);
-  border-radius:6px;color:var(--text);
-  font-family:inherit;font-size:14px;font-weight:700;
-  padding:6px 10px;outline:none;text-align:center;
-  min-width:0;
-}
-.carga-input:focus{border-color:var(--acc)}
-.carga-input::placeholder{color:var(--text3);font-weight:400}
-.carga-unit{font-size:12px;color:var(--text3);font-weight:600}
-.carga-ref{
-  font-size:11px;color:var(--acc);font-weight:600;
-  white-space:nowrap;padding:4px 8px;
-  background:rgba(0,201,167,.1);border-radius:4px;
-  cursor:pointer;
-}
-
-/* ── Banner retomada ─────────────────────────────────────────── */
-.resume-banner{
-  background:linear-gradient(135deg,rgba(0,151,255,.15),rgba(0,201,167,.1));
-  border:1px solid rgba(0,151,255,.3);
-  border-radius:var(--r);padding:14px 16px;
-  margin-bottom:16px;
-  display:flex;align-items:center;gap:12px;
-}
-.resume-banner .rb-icon{font-size:24px;flex-shrink:0}
-.resume-banner .rb-info{flex:1}
-.resume-banner .rb-title{font-size:14px;font-weight:700;color:var(--acc2)}
-.resume-banner .rb-sub{font-size:12px;color:var(--text2);margin-top:2px}
-.resume-banner .rb-btn{
-  padding:8px 14px;border-radius:var(--r-sm);
-  background:var(--acc2);color:var(--bg);
-  font-size:12px;font-weight:700;flex-shrink:0;
-}
-.resume-banner .rb-dismiss{
-  padding:8px 10px;border-radius:var(--r-sm);
-  background:transparent;color:var(--text3);
-  font-size:12px;flex-shrink:0;
-}
-
 /* ── Treino Day Grid ─────────────────────────────────────────── */
 .day-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
 .day-card{
@@ -706,6 +657,102 @@ a{color:inherit;text-decoration:none}
 .dor-btn.sel-forte{background:rgba(255,107,107,.2);border-color:var(--red);color:var(--red)}
 .nota-label{font-size:12px;color:var(--text2);margin-bottom:8px;font-weight:600}
 
+
+/* ── Set Log — Fase 1 ─────────────────────────────────────────── */
+.set-rows{margin-top:10px}
+.set-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.set-row:last-child{border-bottom:none}
+.set-num{
+  min-width:24px;height:24px;border-radius:50%;
+  background:var(--bg4);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:var(--text3);flex-shrink:0;
+}
+.set-row.sdone .set-num{background:rgba(0,201,167,.2);border-color:var(--green);color:var(--green)}
+.set-fields{flex:1;display:flex;gap:6px}
+.set-field{flex:1;display:flex;flex-direction:column;gap:2px}
+.set-input{
+  width:100%;background:var(--bg4);border:1px solid var(--border);
+  border-radius:var(--r-sm);padding:7px 4px;
+  color:var(--text);font-size:13px;font-weight:600;text-align:center;
+  -webkit-appearance:none;
+}
+.set-input:focus{outline:none;border-color:var(--acc2);background:var(--bg3)}
+.set-input::placeholder{color:var(--text3);font-weight:400;font-size:11px}
+.set-input-lbl{font-size:10px;color:var(--text3);text-align:center}
+.set-done-btn{
+  width:34px;height:34px;border-radius:50%;flex-shrink:0;
+  border:2px solid var(--border);background:transparent;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;
+}
+.set-done-btn svg{width:14px;height:14px;stroke:transparent;stroke-width:3;transition:.2s}
+.set-row.sdone .set-done-btn{border-color:var(--green);background:var(--green)}
+.set-row.sdone .set-done-btn svg{stroke:var(--bg)}
+.set-row.sdone .set-input{opacity:.45;pointer-events:none}
+.set-ref{font-size:10px;color:var(--text3);font-style:italic;padding:2px 0 6px 32px}
+.ex-metric-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.ex-metric{
+  display:inline-flex;align-items:center;gap:3px;
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:20px;padding:3px 9px;font-size:11px;font-weight:600;color:var(--text2);
+}
+.ex-metric.m-vol{color:var(--acc2)}
+.ex-metric.m-orm{color:var(--acc4)}
+.ex-metric.m-up{color:var(--green);border-color:rgba(0,201,167,.3)}
+.ex-metric.m-down{color:var(--amber);border-color:rgba(255,209,102,.3)}
+.ex-metric.m-same{color:var(--text3)}
+
+
+/* ── Fase 2 ───────────────────────────────────────────────────── */
+.load-chart-wrap{margin-top:10px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px;display:none}
+.ex-card.open .load-chart-wrap{display:block}
+.load-chart-title{font-size:10px;color:var(--text3);font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.load-chart-svg{width:100%;height:52px;display:block;overflow:visible}
+.load-chart-empty{font-size:11px;color:var(--text3);text-align:center;padding:8px 0}
+.prog-suggest{background:rgba(155,93,229,.15)!important;border-color:rgba(155,93,229,.3)!important;color:var(--purple)!important}
+.vol-groups{width:100%;margin-top:8px}
+.vol-group-row{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.vg-name{font-size:11px;color:var(--text2);min-width:56px;text-align:right}
+.vg-bar-wrap{flex:1;height:8px;background:var(--bg3);border-radius:4px}
+.vg-bar{height:100%;border-radius:4px;transition:width .4s ease}
+.vg-val{font-size:10px;color:var(--text2);min-width:48px;font-weight:600}
+.hist-entry{cursor:pointer;transition:border-color .15s}
+.hist-entry:active{border-color:var(--acc2)}
+.hist-detail-overlay{
+  position:fixed;inset:0;z-index:310;
+  background:rgba(13,27,42,.98);
+  display:none;flex-direction:column;
+  padding:0;overflow:hidden;
+}
+.hist-detail-overlay.show{display:flex}
+.hd-topbar{
+  padding:14px 16px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;flex-shrink:0;
+  background:rgba(13,27,42,.95);
+}
+.hd-close{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--bg3);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;
+}
+.hd-close svg{width:18px;height:18px}
+.hd-title{font-size:16px;font-weight:700}
+.hd-meta{font-size:11px;color:var(--text3);margin-top:2px}
+.hd-body{flex:1;overflow-y:auto;padding:16px}
+.hd-stat-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.hd-stat{background:var(--card);border:1px solid var(--border);border-radius:var(--r-sm);padding:8px 12px;flex:1;min-width:70px}
+.hd-stat-val{font-size:16px;font-weight:700;color:var(--acc)}
+.hd-stat-lbl{font-size:10px;color:var(--text3);margin-top:2px}
+.hd-section-title{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--text3);margin-bottom:8px}
+.hd-ex-block{background:var(--card);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px;margin-bottom:8px}
+.hd-ex-name{font-size:13px;font-weight:600;margin-bottom:8px;color:var(--text)}
+.hd-set-row{display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px}
+.hd-set-row:last-child{border-bottom:none}
+.hd-set-num{min-width:22px;color:var(--text3);font-weight:700;font-size:11px}
+.hd-set-data{flex:1;color:var(--text)}
+.hd-set-1rm{font-size:10px;color:var(--acc4);font-weight:600}
+.hd-note{background:var(--bg3);border-left:3px solid var(--acc);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:10px 12px;font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:14px}
+
 </style>
 </head>
 <body>
@@ -822,7 +869,6 @@ a{color:inherit;text-decoration:none}
 
     <!-- SELEÇÃO DE TREINO PAGE -->
     <div id="page-selecao" class="page">
-      <div id="resumeBanner"></div>
       <div class="section-title" style="margin-top:4px">Escolha o treino do dia</div>
       <div class="day-grid" id="dayGridSel"></div>
       <div class="alert-card" style="margin-top:4px">
@@ -936,6 +982,20 @@ a{color:inherit;text-decoration:none}
 </div><!-- /app -->
 
 
+<!-- HIST DETAIL OVERLAY -->
+<div class="hist-detail-overlay" id="histDetailOverlay">
+  <div class="hd-topbar">
+    <div class="hd-close" onclick="closeHistDetail()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    </div>
+    <div>
+      <div class="hd-title" id="hdTitle"></div>
+      <div class="hd-meta" id="hdMeta"></div>
+    </div>
+  </div>
+  <div class="hd-body" id="hdBody"></div>
+</div>
+
 <!-- NOTA OVERLAY -->
 <div class="nota-overlay" id="notaOverlay">
   <h3 id="notaTitle">Registrar treino</h3>
@@ -962,6 +1022,7 @@ a{color:inherit;text-decoration:none}
   <div class="summary-time" id="sumTime">00:00:00</div>
   <div class="summary-sub" id="sumSub">Tempo total de treino</div>
   <div class="summary-chips" id="sumChips"></div>
+  <div class="vol-groups" id="sumVolGroups" style="display:none"></div>
   <div class="summary-actions">
     <button class="sum-btn secondary" onclick="closeSummary()">Fechar</button>
     <button class="sum-btn primary"   onclick="closeSummaryAndNote()">Registrar treino</button>
@@ -1130,6 +1191,12 @@ let checked = {};       // {treinoId: Set of ex indices}
 let doneDays = JSON.parse(localStorage.getItem('doneDays') || '[]');
 let totalDone = parseInt(localStorage.getItem('totalDone') || '0');
 
+// Fase 1 state
+let setLog = JSON.parse(localStorage.getItem('setLog') || '{}');
+// setLog["A-0"] = [{load:"", reps:"", done:false}, ...]  — current session
+let exerciseHistory = JSON.parse(localStorage.getItem('exerciseHistory') || '{}');
+// exerciseHistory["Supino..."] = [{ts, sets:[{load,reps}]}]
+
 // ══════════════════════════════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════════════════════════════
@@ -1138,31 +1205,6 @@ function init() {
   renderSubList();
   renderEvolucao();
   renderHomeDashboard();
-
-  // Checar se havia treino em andamento
-  const session = loadSession();
-  if (session) {
-    // Mostrar banner na home também
-    const t = TREINOS.find(x => x.id === session.treinoId);
-    if (t) {
-      const feitos = (session.checked || []).length;
-      const pct    = Math.round(feitos / t.exercicios.length * 100);
-      // Inserir mini-banner na home
-      const nb = document.createElement('div');
-      nb.id = 'homeBanner';
-      nb.innerHTML = `<div class="resume-banner" style="margin-bottom:14px">
-        <div class="rb-icon">⚡</div>
-        <div class="rb-info">
-          <div class="rb-title">Treino ${t.id} pausado</div>
-          <div class="rb-sub">${feitos}/${t.exercicios.length} exercícios (${pct}%) — toque para retomar</div>
-        </div>
-        <button class="rb-btn" onclick="resumeSession(${JSON.stringify(session).replace(/"/g,'&quot;')})">Retomar</button>
-        <button class="rb-dismiss" onclick="clearSession();this.closest('.resume-banner').remove()">✕</button>
-      </div>`;
-      const hero = document.querySelector('.home-hero');
-      if (hero) hero.after(nb);
-    }
-  }
 }
 
 // ── Day Grid ────────────────────────────────────────────────────────
@@ -1196,6 +1238,12 @@ function renderDayGrid() {
 function openTreino(id) {
   currentTreino = TREINOS.find(t => t.id === id);
   if (!currentTreino) return;
+  // Fresh start: reset setLog for this treino
+  TREINOS.find(t => t.id === id)?.exercicios.forEach((ex, i) => {
+    const k = setKey(id, i);
+    setLog[k] = Array.from({length: getNumSets(ex)}, () => ({load:'', reps:'', done:false}));
+  });
+  saveSetLog();
   checked[id] = checked[id] || new Set();
 
   document.getElementById('treinoTitle').textContent = `Treino ${id}`;
@@ -1210,7 +1258,6 @@ function openTreino(id) {
   document.getElementById('exList').style.display = '';
   chronoReset();
 
-  saveSession();  // ← persiste ao abrir
   showPage('treino');
   ['home','selecao','evolucao','info'].forEach(n => {
     document.getElementById('nav-'+n)?.classList.remove('active');
@@ -1246,14 +1293,41 @@ function renderWarmup(tipo) {
 function renderExList(t) {
   const list = document.getElementById('exList');
   list.innerHTML = t.exercicios.map((ex, i) => {
-    const done     = checked[t.id] && checked[t.id].has(i);
-    const isSub    = ex.status === 'SUBSTITUIR';
-    const isAdpt   = ex.status === 'ADAPTAR';
+    const done = checked[t.id] && checked[t.id].has(i);
+    const isSub  = ex.status === 'SUBSTITUIR';
+    const isAdpt = ex.status === 'ADAPTAR';
     const obsClass = isSub ? 'is-sub' : isAdpt ? 'is-adapt' : '';
-    const cargaSalva = getCarga(t.id, i);
-    const cargaRef   = cargaSalva
-      ? `<span class="carga-ref" onclick="document.getElementById('carga-${i}').value='${cargaSalva}'">↩ ${cargaSalva} kg</span>`
-      : '';
+    const numSets = getNumSets(ex);
+    initSetLog(t.id, i, numSets);
+    const k = setKey(t.id, i);
+    const prevSets = getPrevSets(ex.nome);
+
+    const setRowsHtml = setLog[k].map((s, si) => {
+      const prevLoad = prevSets && prevSets[si] ? prevSets[si].load : '';
+      const prevReps = prevSets && prevSets[si] ? prevSets[si].reps : '';
+      const phLoad = prevLoad ? prevLoad + 'kg' : 'kg';
+      const phReps = prevReps ? prevReps : ex.reps.toString().split(/[-–]/)[0];
+      return `<div class="set-row${s.done ? ' sdone' : ''}" id="setrow-${i}-${si}">
+        <div class="set-num">${si+1}</div>
+        <div class="set-fields">
+          <div class="set-field">
+            <input class="set-input" type="number" inputmode="decimal" min="0" step="0.5"
+              id="set-load-${i}-${si}" placeholder="${phLoad}" value="${s.load}"
+              oninput="onSetInput('${t.id}',${i},${si},'load',this.value)">
+            <div class="set-input-lbl">kg</div>
+          </div>
+          <div class="set-field">
+            <input class="set-input" type="number" inputmode="numeric" min="0"
+              id="set-reps-${i}-${si}" placeholder="${phReps}" value="${s.reps}"
+              oninput="onSetInput('${t.id}',${i},${si},'reps',this.value)">
+            <div class="set-input-lbl">reps</div>
+          </div>
+        </div>
+        <button class="set-done-btn" onclick="markSet('${t.id}',${i},${si})">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+      </div>${si===0 && prevLoad ? `<div class="set-ref">Última sessão: ${prevLoad}kg × ${prevReps} reps</div>` : ''}`;
+    }).join('');
 
     return `
     <div class="ex-card${done ? ' done' : ''}" id="excard-${i}">
@@ -1272,35 +1346,18 @@ function renderExList(t) {
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
               ${ex.reps} reps
             </div>
-            ${cargaSalva ? `<div class="meta-pill" style="color:var(--acc);background:rgba(0,201,167,.1)">⚖ ${cargaSalva}kg</div>` : ''}
             <div class="status-dot st-${ex.status}"></div>
           </div>
+          <div class="ex-metric-row" id="ex-metrics-${i}"></div>
         </div>
       </div>
       <div class="ex-detail">
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
           <span class="badge badge-${ex.status}">${ex.status}</span>
         </div>
         ${ex.obs ? `<div class="ex-obs ${obsClass}">${ex.obs}</div>` : ''}
-
-        <!-- Campo de carga -->
-        <div class="carga-row">
-          <label>⚖ Carga usada</label>
-          <input
-            class="carga-input"
-            id="carga-${i}"
-            type="number"
-            inputmode="decimal"
-            placeholder="Ex: 20"
-            value="${cargaSalva}"
-            onchange="saveCarga('${t.id}', ${i}, this.value); renderExList(currentTreino)"
-            onclick="event.stopPropagation()"
-          />
-          <span class="carga-unit">kg</span>
-          ${cargaRef}
-        </div>
-
-        <div class="ex-timer-row">
+        <div class="set-rows">${setRowsHtml}</div>
+        <div class="ex-timer-row" style="margin-top:10px">
           <button class="timer-btn rest" onclick="startTimer(60)">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             60s
@@ -1313,11 +1370,8 @@ function renderExList(t) {
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             2min
           </button>
-          <button class="timer-btn done-btn" onclick="markDone(${i})">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            Feito
-          </button>
         </div>
+        <div class="load-chart-wrap" id="load-chart-${i}"></div>
       </div>
     </div>`;
   }).join('');
@@ -1327,7 +1381,16 @@ function toggleEx(i) {
   const card = document.getElementById(`excard-${i}`);
   const isOpen = card.classList.contains('open');
   document.querySelectorAll('.ex-card.open').forEach(c => c.classList.remove('open'));
-  if (!isOpen) card.classList.add('open');
+  if (!isOpen) {
+    card.classList.add('open');
+    if (currentTreino) {
+      const ex = currentTreino.exercicios[i];
+      if (ex) {
+        updateExMetrics(currentTreino.id, i, ex.nome);
+        renderLoadChart(ex.nome, i);
+      }
+    }
+  }
 }
 
 function markDone(i) {
@@ -1338,10 +1401,129 @@ function markDone(i) {
   card.classList.add('done');
   card.classList.remove('open');
   updateProgress();
-  saveSession();  // ← persiste imediatamente
   if (checked[t.id].size === t.exercicios.length) {
     setTimeout(showDone, 400);
   }
+}
+
+// ── Fase 1: Set-level functions ─────────────────────────────────────
+
+function setKey(treinoId, exIdx) { return treinoId + '-' + exIdx; }
+
+function getNumSets(ex) { return parseInt(ex.series) || 3; }
+
+function restSecs(ex) {
+  const s = parseInt(ex.series);
+  if (s >= 4) return 90;
+  const repsStr = (ex.reps || '').toString();
+  const maxReps = parseInt(repsStr.split(/[-–]/).pop()) || 12;
+  return maxReps <= 12 ? 90 : 60;
+}
+
+function initSetLog(treinoId, exIdx, numSets) {
+  const k = setKey(treinoId, exIdx);
+  if (!setLog[k] || setLog[k].length !== numSets) {
+    setLog[k] = Array.from({length: numSets}, () => ({load:'', reps:'', done:false}));
+  }
+}
+
+function saveSetLog() { localStorage.setItem('setLog', JSON.stringify(setLog)); }
+
+function getPrevSets(exNome) {
+  const hist = exerciseHistory[exNome];
+  return (hist && hist.length) ? hist[0].sets : null;
+}
+
+function calc1RM(load, reps) {
+  if (!load || !reps || reps <= 0) return null;
+  return Math.round(parseFloat(load) * (1 + parseFloat(reps) / 30));
+}
+
+function calcVolume(sets) {
+  return sets.reduce((sum, s) => {
+    if (s.done && s.load && s.reps) sum += parseFloat(s.load) * parseFloat(s.reps);
+    return sum;
+  }, 0);
+}
+
+function getBestDoneSet(sets) {
+  return sets.filter(s => s.done && s.load).reduce((best, s) =>
+    (!best || parseFloat(s.load) > parseFloat(best.load)) ? s : best, null);
+}
+
+function getTrend(exNome, k) {
+  const prev = getPrevSets(exNome);
+  if (!prev) return null;
+  const prevBest = prev.reduce((max, s) => Math.max(max, parseFloat(s.load) || 0), 0);
+  const cur = setLog[k] || [];
+  const curBest = cur.reduce((max, s) => Math.max(max, parseFloat(s.load) || 0), 0);
+  if (!prevBest || !curBest) return null;
+  if (curBest > prevBest) return 'up';
+  if (curBest < prevBest) return 'down';
+  return 'same';
+}
+
+function updateExMetrics(treinoId, exIdx, exNome) {
+  const k = setKey(treinoId, exIdx);
+  const sets = setLog[k] || [];
+  const vol = calcVolume(sets);
+  const best = getBestDoneSet(sets);
+  const orm = best ? calc1RM(best.load, best.reps) : null;
+  const trend = getTrend(exNome, k);
+  const sugg = getProgressionSuggestion(exNome);
+  const el = document.getElementById('ex-metrics-' + exIdx);
+  if (!el) return;
+  let html = '';
+  if (vol > 0) html += `<span class="ex-metric m-vol">📦 ${vol.toFixed(0)} kg vol</span>`;
+  if (orm) html += `<span class="ex-metric m-orm">💪 1RM ~${orm}kg</span>`;
+  if (trend) {
+    const icons = {up:'↑ carga', same:'→ carga', down:'↓ carga'};
+    html += `<span class="ex-metric m-${trend === 'up' ? 'up' : trend === 'down' ? 'down' : 'same'}">${icons[trend]}</span>`;
+  }
+  if (sugg) html += `<span class="ex-metric prog-suggest" title="Mesma carga há 2 sessões — hora de progredir!">🚀 Tente ${sugg}kg</span>`;
+  el.innerHTML = html;
+}
+
+function onSetInput(treinoId, exIdx, setIdx, field, value) {
+  const k = setKey(treinoId, exIdx);
+  if (!setLog[k]) return;
+  setLog[k][setIdx][field] = value;
+  saveSetLog();
+  const ex = TREINOS.find(t => t.id === treinoId)?.exercicios[exIdx];
+  if (ex) updateExMetrics(treinoId, exIdx, ex.nome);
+}
+
+function markSet(treinoId, exIdx, setIdx) {
+  const k = setKey(treinoId, exIdx);
+  if (!setLog[k]) return;
+  const s = setLog[k][setIdx];
+  if (s.done) return;
+  s.done = true;
+  saveSetLog();
+  const row = document.getElementById('setrow-' + exIdx + '-' + setIdx);
+  if (row) row.classList.add('sdone');
+  const ex = TREINOS.find(t => t.id === treinoId)?.exercicios[exIdx];
+  if (ex) updateExMetrics(treinoId, exIdx, ex.nome);
+  // Auto-start rest timer
+  startTimer(ex ? restSecs(ex) : 60);
+  // Check if all sets done → auto-mark exercise
+  if (setLog[k].every(s2 => s2.done)) {
+    setTimeout(() => markDone(exIdx), 300);
+  }
+}
+
+function saveExerciseHistory(treinoId) {
+  const t = TREINOS.find(x => x.id === treinoId);
+  if (!t) return;
+  t.exercicios.forEach((ex, i) => {
+    const k = setKey(treinoId, i);
+    const doneSets = (setLog[k] || []).filter(s => s.done && s.load);
+    if (!doneSets.length) return;
+    if (!exerciseHistory[ex.nome]) exerciseHistory[ex.nome] = [];
+    exerciseHistory[ex.nome].unshift({ts: Date.now(), sets: doneSets.map(s => ({load:s.load, reps:s.reps}))});
+    if (exerciseHistory[ex.nome].length > 10) exerciseHistory[ex.nome].length = 10;
+  });
+  localStorage.setItem('exerciseHistory', JSON.stringify(exerciseHistory));
 }
 
 function updateProgress() {
@@ -1391,7 +1573,6 @@ function goHome() {
   document.getElementById('topTitle').textContent = 'Treino ABCDEF';
   showPage('home');
   renderHomeDashboard();
-  renderResumeBanner();
   document.getElementById('nav-home').classList.add('active');
   document.getElementById('nav-treino').classList.remove('active');
   document.getElementById('nav-info').classList.remove('active');
@@ -1402,7 +1583,6 @@ function switchPage(name) {
   if (name === 'treino-nav') {
     // sempre mostra a tela de seleção (home), não o treino em andamento
     showPage('selecao');
-    renderResumeBanner();
     ['home','treino','evolucao','info'].forEach(n => {
       document.getElementById('nav-'+n)?.classList.remove('active');
     });
@@ -1462,136 +1642,6 @@ function closeTimerWithBeep() {
 
 
 
-
-// ══════════════════════════════════════════════════════════════════
-// PERSISTÊNCIA DE ESTADO — retomada após fechamento
-// ══════════════════════════════════════════════════════════════════
-
-// Chaves do localStorage
-const K_SESSION   = 'session_v1';    // treino em andamento
-const K_CARGAS    = 'cargas_v1';     // {treinoId_exIdx: "kg"}
-const K_CHRONO    = 'chrono_v1';     // {secs, running, startTs}
-
-// Cargas salvas (persiste entre sessões)
-let cargas = JSON.parse(localStorage.getItem(K_CARGAS) || '{}');
-
-function saveCarga(treinoId, exIdx, valor) {
-  const key = `${treinoId}_${exIdx}`;
-  if (valor.trim()) {
-    cargas[key] = valor.trim();
-  } else {
-    delete cargas[key];
-  }
-  localStorage.setItem(K_CARGAS, JSON.stringify(cargas));
-}
-
-function getCarga(treinoId, exIdx) {
-  return cargas[`${treinoId}_${exIdx}`] || '';
-}
-
-// Salvar sessão atual (chamado em cada ação)
-function saveSession() {
-  if (!currentTreino) {
-    localStorage.removeItem(K_SESSION);
-    return;
-  }
-  const session = {
-    treinoId:   currentTreino.id,
-    checked:    [...(checked[currentTreino.id] || new Set())],
-    page:       'treino',
-    ts:         Date.now(),
-  };
-  localStorage.setItem(K_SESSION, JSON.stringify(session));
-
-  // Salvar estado do cronômetro
-  const cs = {secs: chronoSeconds, running: chronoRunning, startTs: chronoStartTs};
-  localStorage.setItem(K_CHRONO, JSON.stringify(cs));
-}
-
-function clearSession() {
-  localStorage.removeItem(K_SESSION);
-  localStorage.removeItem(K_CHRONO);
-}
-
-// Carregar sessão ao abrir o app
-function loadSession() {
-  try {
-    const raw = localStorage.getItem(K_SESSION);
-    if (!raw) return null;
-    const s = JSON.parse(raw);
-    // Considerar válida se menos de 12h atrás
-    if (Date.now() - s.ts > 12 * 3600 * 1000) {
-      clearSession(); return null;
-    }
-    return s;
-  } catch(e) { return null; }
-}
-
-// Retomar sessão salva
-function resumeSession(session) {
-  const t = TREINOS.find(x => x.id === session.treinoId);
-  if (!t) return;
-
-  currentTreino = t;
-  checked[t.id] = new Set(session.checked || []);
-
-  document.getElementById('treinoTitle').textContent = `Treino ${t.id}`;
-  document.getElementById('treinoSub').textContent   = t.nome;
-  document.getElementById('topTitle').textContent    = `Treino ${t.id} — ${t.nome}`;
-
-  renderWarmup(t.tipo);
-  renderExList(t);
-  updateProgress();
-
-  document.getElementById('doneScreen').classList.remove('show');
-  document.getElementById('exList').style.display = '';
-
-  // Restaurar cronômetro
-  try {
-    const cs = JSON.parse(localStorage.getItem(K_CHRONO) || '{}');
-    if (cs.secs > 0) {
-      chronoSeconds = cs.secs;
-      document.getElementById('chronoDisplay').textContent = chronoFmt(chronoSeconds);
-      document.getElementById('chronoDisplay').className   = 'chrono-display stopped';
-      document.getElementById('chronoBtnStart').style.display  = '';
-      document.getElementById('chronoBtnStart').textContent    = '▶ Retomar';
-      document.getElementById('chronoBtnStop').style.display   = 'none';
-      document.getElementById('chronoBtnFinish').style.display = '';
-    }
-  } catch(e) {}
-
-  showPage('treino');
-  ['home','selecao','evolucao','info'].forEach(n =>
-    document.getElementById('nav-'+n)?.classList.remove('active')
-  );
-  document.getElementById('nav-treino').classList.add('active');
-}
-
-// Banner de retomada na tela de seleção
-function renderResumeBanner() {
-  const el = document.getElementById('resumeBanner');
-  if (!el) return;
-  const session = loadSession();
-  if (!session) { el.innerHTML = ''; return; }
-  const t = TREINOS.find(x => x.id === session.treinoId);
-  if (!t) { el.innerHTML = ''; return; }
-  const feitos = (session.checked || []).length;
-  const total  = t.exercicios.length;
-  const pct    = Math.round(feitos / total * 100);
-  const min    = Math.round((Date.now() - session.ts) / 60000);
-  const quando = min < 2 ? 'agora pouco' : min < 60 ? `${min} min atrás` : 'hoje';
-  el.innerHTML = `
-    <div class="resume-banner">
-      <div class="rb-icon">⚡</div>
-      <div class="rb-info">
-        <div class="rb-title">Treino ${t.id} em andamento</div>
-        <div class="rb-sub">${feitos}/${total} exercícios (${pct}%) · pausado ${quando}</div>
-      </div>
-      <button class="rb-btn" onclick="resumeSession(${JSON.stringify(session).replace(/"/g,'&quot;')})">Retomar</button>
-      <button class="rb-dismiss" onclick="clearSession();renderResumeBanner()">✕</button>
-    </div>`;
-}
-
 // ══════════════════════════════════════════════════════════════════
 // CRONÔMETRO DE TREINO
 // ══════════════════════════════════════════════════════════════════
@@ -1618,8 +1668,6 @@ function chronoStart() {
   chronoInterval = setInterval(() => {
     chronoSeconds++;
     document.getElementById('chronoDisplay').textContent = chronoFmt(chronoSeconds);
-    // Salvar a cada 10s para não sobrecarregar
-    if (chronoSeconds % 10 === 0) saveSession();
   }, 1000);
 }
 
@@ -1666,6 +1714,7 @@ function chronoFinish() {
     `<div class="summary-chip ${c.good?'good':''}">${c.label}</div>`
   ).join('');
 
+  renderSummaryVolume();
   document.getElementById('summaryOverlay').classList.add('show');
 }
 
@@ -1971,10 +2020,18 @@ function saveNota() {
     cor:     t.cor,
     durSecs: window._lastChronoSecs || 0,
   };
+  // Snapshot per-set data for history detail
+  const snap = {};
+  t.exercicios.forEach((ex, i) => {
+    const k = setKey(treinoId, i);
+    const doneSets = (setLog[k] || []).filter(s => s.done && s.load);
+    if (doneSets.length) snap[ex.nome] = doneSets.map(s => ({load:s.load, reps:s.reps}));
+  });
+  entry.setSnapshot = snap;
   window._lastChronoSecs = 0;
+  saveExerciseHistory(treinoId);
   historico.unshift(entry);
   saveHistorico();
-  clearSession();  // ← treino concluído, limpa sessão
   closeNota();
   renderEvolucao();
 }
@@ -2073,22 +2130,192 @@ function renderHistList() {
     const completo = h.exFeitos === h.exTotal;
     const dorLbl   = DOR_LABEL[h.dor] || 'Sem dor';
     const dorCls   = DOR_CLS[h.dor]   || '';
-    return `<div class="hist-entry">
+    const hasDetail = h.setSnapshot && Object.keys(h.setSnapshot).length > 0;
+    return `<div class="hist-entry" onclick="openHistDetail(${i})">
       <div class="hist-top">
         <div class="hist-badge" style="background:${h.cor}22;color:${h.cor}">${h.id}</div>
         <div class="hist-meta">
           <div class="hist-nome">Treino ${h.id} — ${h.nome}</div>
           <div class="hist-data">${h.data} às ${h.hora}</div>
         </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
       <div class="hist-pills">
         <span class="hist-pill ${completo?'ok':'parcial'}">${h.exFeitos}/${h.exTotal} exercícios</span>
         ${h.durSecs ? `<span class="hist-pill ok">⏱ ${chronoFmt(h.durSecs)}</span>` : ''}
         <span class="hist-pill ${dorCls}">${dorLbl}</span>
-        ${h.nota ? `<span class="hist-pill" style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">📝 ${h.nota}</span>` : ''}
+        ${hasDetail ? `<span class="hist-pill" style="color:var(--acc2)">📊 ver cargas</span>` : ''}
+        ${h.nota ? `<span class="hist-pill">📝 ${h.nota.length > 50 ? h.nota.slice(0,50)+'…' : h.nota}</span>` : ''}
       </div>
     </div>`;
   }).join('');
+}
+
+
+// ══════════════════════════════════════════════════════════════════
+// FASE 2 — Gráficos, histórico detalhado, volume por grupo, progressão
+// ══════════════════════════════════════════════════════════════════
+
+const GRUPO_KW = {
+  perna:  ['agachamento','leg press','leg horizontal','stiff','flexora','extensora','adutora','panturrilha','hack'],
+  costas: ['remada','puxada','pull'],
+  peito:  ['supino','crucifixo'],
+  ombro:  ['press','elevação','elev.','face pull','landmine','y raise','w–t','soco','plank'],
+  braço:  ['rosca','tríceps','bíceps'],
+  reab:   ['theraband','rotação externa','rotação'],
+};
+const GRUPO_COR = {perna:'#00C9A7',costas:'#9B5DE5',peito:'#0097FF',ombro:'#FFD166',braço:'#FF6B6B',reab:'#FF8A50',outros:'#5A7A96'};
+const GRUPO_LBL = {perna:'Perna',costas:'Costas',peito:'Peito',ombro:'Ombro',braço:'Braço',reab:'Reab.',outros:'Outros'};
+
+function getGrupo(nome) {
+  const n = nome.toLowerCase();
+  for (const [g, kws] of Object.entries(GRUPO_KW)) {
+    if (kws.some(k => n.includes(k))) return g;
+  }
+  return 'outros';
+}
+
+function calcVolumeByGroup(treinoId) {
+  const t = TREINOS.find(x => x.id === treinoId);
+  if (!t) return {};
+  const result = {};
+  t.exercicios.forEach((ex, i) => {
+    const vol = calcVolume(setLog[setKey(treinoId, i)] || []);
+    if (vol > 0) {
+      const g = getGrupo(ex.nome);
+      result[g] = (result[g] || 0) + vol;
+    }
+  });
+  return result;
+}
+
+function renderSummaryVolume() {
+  const el = document.getElementById('sumVolGroups');
+  if (!el || !currentTreino) return;
+  const groups = calcVolumeByGroup(currentTreino.id);
+  const entries = Object.entries(groups).filter(([,v]) => v > 0);
+  if (!entries.length) { el.style.display = 'none'; return; }
+  const max = Math.max(...entries.map(([,v]) => v));
+  el.style.display = '';
+  el.innerHTML = '<div style="font-size:11px;color:var(--text2);text-align:center;margin-bottom:8px;font-weight:600;letter-spacing:.3px">Volume por grupo muscular</div>' +
+    entries.sort((a,b) => b[1]-a[1]).map(([g,v]) => `
+    <div class="vol-group-row">
+      <div class="vg-name">${GRUPO_LBL[g]}</div>
+      <div class="vg-bar-wrap"><div class="vg-bar" style="width:${Math.round(v/max*100)}%;background:${GRUPO_COR[g]}"></div></div>
+      <div class="vg-val">${v.toFixed(0)} kg</div>
+    </div>`).join('');
+}
+
+// ── Load sparkline ─────────────────────────────────────────────────
+function renderLoadChart(exNome, exIdx) {
+  const el = document.getElementById('load-chart-' + exIdx);
+  if (!el) return;
+  const hist = exerciseHistory[exNome];
+  if (!hist || hist.length < 2) {
+    el.innerHTML = '<div class="load-chart-empty">Histórico disponível após 2 sessões com dados</div>';
+    return;
+  }
+  const sessions = hist.slice(0, 8).reverse();
+  const maxLoads = sessions.map(s => Math.max(...s.sets.map(x => parseFloat(x.load) || 0)));
+  const max = Math.max(...maxLoads, 1);
+  const min = Math.min(...maxLoads);
+  const W = 280; const H = 52; const pad = 12;
+  const uw = W - pad * 2; const uh = H - pad * 2 - 14; // 14px for labels
+  const n = maxLoads.length;
+  const pts = maxLoads.map((v, i) => ({
+    x: pad + (n > 1 ? (i / (n - 1)) * uw : uw / 2),
+    y: pad + (1 - (max === min ? 0.5 : (v - min) / (max - min))) * uh
+  }));
+  const pathD = pts.map((p, i) => (i===0?'M':'L') + p.x.toFixed(1) + ',' + p.y.toFixed(1)).join(' ');
+  const areaD = pathD + ` L${pts[pts.length-1].x.toFixed(1)},${pad+uh} L${pts[0].x.toFixed(1)},${pad+uh} Z`;
+  const trend = maxLoads[maxLoads.length-1] > maxLoads[0] ? '↑' : maxLoads[maxLoads.length-1] < maxLoads[0] ? '↓' : '→';
+  const trendColor = trend==='↑'?'var(--green)':trend==='↓'?'var(--amber)':'var(--text3)';
+  const dots = pts.map((p, i) => `
+    <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.5" fill="var(--acc)" stroke="var(--bg3)" stroke-width="1.5"/>
+    <text x="${p.x.toFixed(1)}" y="${(p.y-7).toFixed(1)}" text-anchor="middle" font-size="8" fill="var(--text3)" font-weight="600">${maxLoads[i]}</text>`).join('');
+  el.innerHTML = `
+    <div class="load-chart-title">
+      <span>📈 Carga máx. por sessão (últimas ${sessions.length})</span>
+      <span style="color:${trendColor};font-size:12px">${trend} ${maxLoads[maxLoads.length-1]}kg</span>
+    </div>
+    <svg class="load-chart-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+      <defs><linearGradient id="lcg${exIdx}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="var(--acc)" stop-opacity=".25"/>
+        <stop offset="100%" stop-color="var(--acc)" stop-opacity="0"/>
+      </linearGradient></defs>
+      <path d="${areaD}" fill="url(#lcg${exIdx})"/>
+      <path d="${pathD}" fill="none" stroke="var(--acc)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      ${dots}
+    </svg>`;
+}
+
+// ── Progression suggestion ─────────────────────────────────────────
+function getProgressionSuggestion(exNome) {
+  const hist = exerciseHistory[exNome];
+  if (!hist || hist.length < 2) return null;
+  const loads = hist.slice(0, 2).map(s => Math.max(...s.sets.map(x => parseFloat(x.load) || 0)));
+  if (loads[0] <= 0 || loads[0] !== loads[1]) return null;
+  const next = (loads[0] + 2.5).toFixed(1).replace(/\.0$/, '');
+  return next;
+}
+
+// ── History detail overlay ─────────────────────────────────────────
+function openHistDetail(idx) {
+  const h = historico[idx];
+  if (!h) return;
+  const DOR_LBL = {sem:'Sem dor 🟢',leve:'Dor leve 🟡',moderada:'Dor moderada 🔴',forte:'Dor forte 🔴'};
+  document.getElementById('hdTitle').textContent = `Treino ${h.id} — ${h.nome}`;
+  document.getElementById('hdMeta').textContent = `${h.data} às ${h.hora}`;
+
+  let body = '';
+
+  // Stats
+  body += `<div class="hd-stat-row">
+    <div class="hd-stat"><div class="hd-stat-val">${h.exFeitos}/${h.exTotal}</div><div class="hd-stat-lbl">Exercícios</div></div>
+    ${h.durSecs ? `<div class="hd-stat"><div class="hd-stat-val" style="font-size:13px">${chronoFmt(h.durSecs)}</div><div class="hd-stat-lbl">Duração</div></div>` : ''}
+    <div class="hd-stat"><div class="hd-stat-val" style="color:${h.dor==='sem'?'var(--green)':'var(--amber)'}">
+      ${(DOR_LBL[h.dor||'sem']||'').split(' ').slice(0,-1).join(' ')}</div><div class="hd-stat-lbl">Ombros</div></div>
+  </div>`;
+
+  // Note
+  if (h.nota) {
+    body += `<div class="hd-note" style="margin-bottom:14px">📝 ${h.nota}</div>`;
+  }
+
+  // Per-exercise set data
+  if (h.setSnapshot && Object.keys(h.setSnapshot).length) {
+    body += `<div class="hd-section-title">Cargas por exercício</div>`;
+    let totalVolumeAll = 0;
+    Object.entries(h.setSnapshot).forEach(([nome, sets]) => {
+      const exVol = sets.reduce((s, x) => s + (parseFloat(x.load)||0)*(parseFloat(x.reps)||0), 0);
+      totalVolumeAll += exVol;
+      const bestSet = sets.reduce((b, s) => (parseFloat(s.load)||0) > (parseFloat(b.load)||0) ? s : b, sets[0]);
+      const bestOrm = calc1RM(bestSet?.load, bestSet?.reps);
+      body += `<div class="hd-ex-block">
+        <div class="hd-ex-name">${nome}${bestOrm ? `<span style="font-size:10px;color:var(--acc4);font-weight:600;margin-left:8px">1RM ~${bestOrm}kg</span>` : ''}</div>
+        ${sets.map((s, i) => {
+          const orm = calc1RM(s.load, s.reps);
+          return `<div class="hd-set-row">
+            <div class="hd-set-num">S${i+1}</div>
+            <div class="hd-set-data">${s.load}kg × ${s.reps} reps</div>
+            ${orm ? `<div class="hd-set-1rm">1RM ~${orm}kg</div>` : ''}
+          </div>`;
+        }).join('')}
+        ${exVol > 0 ? `<div style="margin-top:6px;font-size:10px;color:var(--text3)">Volume: <strong style="color:var(--acc2)">${exVol.toFixed(0)} kg</strong></div>` : ''}
+      </div>`;
+    });
+    if (totalVolumeAll > 0) {
+      body += `<div style="font-size:12px;color:var(--text2);text-align:right;margin-top:4px;margin-bottom:16px">
+        Volume total: <strong style="color:var(--acc)">${totalVolumeAll.toFixed(0)} kg</strong></div>`;
+    }
+  }
+
+  document.getElementById('hdBody').innerHTML = body;
+  document.getElementById('histDetailOverlay').classList.add('show');
+}
+
+function closeHistDetail() {
+  document.getElementById('histDetailOverlay').classList.remove('show');
 }
 
 // ══════════════════════════════════════════════════════════════════
