@@ -1205,6 +1205,7 @@ function init() {
   renderSubList();
   renderEvolucao();
   renderHomeDashboard();
+  tryRestoreSession();
 }
 
 // ── Day Grid ────────────────────────────────────────────────────────
@@ -1235,16 +1236,21 @@ function renderDayGrid() {
 }
 
 // ── Open Treino ─────────────────────────────────────────────────────
-function openTreino(id) {
+function openTreino(id, restore = false) {
   currentTreino = TREINOS.find(t => t.id === id);
   if (!currentTreino) return;
-  // Fresh start: reset setLog for this treino
-  TREINOS.find(t => t.id === id)?.exercicios.forEach((ex, i) => {
-    const k = setKey(id, i);
-    setLog[k] = Array.from({length: getNumSets(ex)}, () => ({load:'', reps:'', done:false}));
-  });
-  saveSetLog();
-  checked[id] = checked[id] || new Set();
+
+  if (!restore) {
+    // Início limpo: zera setLog e checked
+    currentTreino.exercicios.forEach((ex, i) => {
+      const k = setKey(id, i);
+      setLog[k] = Array.from({length: getNumSets(ex)}, () => ({load:'', reps:'', done:false}));
+    });
+    saveSetLog();
+    checked[id] = new Set();
+    chronoReset();
+  }
+  // Em restore, setLog e checked já foram restaurados antes desta chamada
 
   document.getElementById('treinoTitle').textContent = `Treino ${id}`;
   document.getElementById('treinoSub').textContent = currentTreino.nome;
@@ -1256,7 +1262,6 @@ function openTreino(id) {
 
   document.getElementById('doneScreen').classList.remove('show');
   document.getElementById('exList').style.display = '';
-  chronoReset();
 
   showPage('treino');
   ['home','selecao','evolucao','info'].forEach(n => {
@@ -1264,6 +1269,8 @@ function openTreino(id) {
   });
   document.getElementById('nav-treino').classList.add('active');
   document.getElementById('nav-home').classList.remove('active');
+
+  if (!restore) saveActiveSession();
 }
 
 // ── Warmup ───────────────────────────────────────────────────────────
@@ -1401,6 +1408,7 @@ function markDone(i) {
   card.classList.add('done');
   card.classList.remove('open');
   updateProgress();
+  saveActiveSession();
   if (checked[t.id].size === t.exercicios.length) {
     setTimeout(showDone, 400);
   }
@@ -1548,7 +1556,7 @@ function showDone() {
   }
   renderDayGrid();
   // Se cronômetro rodando, abre summary; senão abre nota diretamente
-  if (chronoSeconds > 0) {
+  if (getChronoSecs() > 0) {
     setTimeout(() => chronoFinish(), 400);
   } else {
     const exFeitos = (checked[t.id] || new Set()).size;
@@ -1646,9 +1654,16 @@ function closeTimerWithBeep() {
 // CRONÔMETRO DE TREINO
 // ══════════════════════════════════════════════════════════════════
 let chronoInterval = null;
-let chronoSeconds  = 0;
+let chronoBaseSecs = 0;    // segundos acumulados antes do run atual
+let chronoStartTs  = null; // timestamp absoluto do início do run atual
 let chronoRunning  = false;
-let chronoStartTs  = null;
+
+function getChronoSecs() {
+  if (chronoRunning && chronoStartTs) {
+    return chronoBaseSecs + Math.floor((Date.now() - chronoStartTs) / 1000);
+  }
+  return chronoBaseSecs;
+}
 
 function chronoFmt(s) {
   const h = String(Math.floor(s / 3600)).padStart(2,'0');
@@ -1659,32 +1674,35 @@ function chronoFmt(s) {
 
 function chronoStart() {
   if (chronoRunning) return;
-  chronoRunning  = true;
-  if (!chronoStartTs) chronoStartTs = Date.now();
+  chronoRunning = true;
+  chronoStartTs = Date.now();
   document.getElementById('chronoDisplay').className = 'chrono-display running';
   document.getElementById('chronoBtnStart').style.display  = 'none';
   document.getElementById('chronoBtnStop').style.display   = '';
   document.getElementById('chronoBtnFinish').style.display = '';
   chronoInterval = setInterval(() => {
-    chronoSeconds++;
-    document.getElementById('chronoDisplay').textContent = chronoFmt(chronoSeconds);
+    document.getElementById('chronoDisplay').textContent = chronoFmt(getChronoSecs());
   }, 1000);
+  saveActiveSession();
 }
 
 function chronoStop() {
   if (!chronoRunning) return;
-  chronoRunning = false;
+  chronoBaseSecs = getChronoSecs(); // trava o tempo acumulado
+  chronoStartTs  = null;
+  chronoRunning  = false;
   clearInterval(chronoInterval);
   document.getElementById('chronoDisplay').className = 'chrono-display stopped';
   document.getElementById('chronoBtnStart').style.display = '';
   document.getElementById('chronoBtnStart').textContent   = '▶ Retomar';
   document.getElementById('chronoBtnStop').style.display  = 'none';
+  saveActiveSession();
 }
 
 function chronoReset() {
   clearInterval(chronoInterval);
   chronoRunning  = false;
-  chronoSeconds  = 0;
+  chronoBaseSecs = 0;
   chronoStartTs  = null;
   document.getElementById('chronoDisplay').textContent = '00:00:00';
   document.getElementById('chronoDisplay').className   = 'chrono-display';
@@ -1701,13 +1719,13 @@ function chronoFinish() {
   const tot  = t.exercicios.length;
   const pct  = Math.round(done / tot * 100);
 
-  document.getElementById('sumTime').textContent = chronoFmt(chronoSeconds);
+  document.getElementById('sumTime').textContent = chronoFmt(getChronoSecs());
   document.getElementById('sumSub').textContent  = `Treino ${t.id} — ${t.nome}`;
 
   const chips = [];
   chips.push({label: `${done}/${tot} exercícios (${pct}%)`, good: done === tot});
-  if (chronoSeconds < 3600) chips.push({label:'Treino focado ⚡', good:true});
-  else if (chronoSeconds < 5400) chips.push({label:'Ótimo volume 💪', good:true});
+  if (getChronoSecs() < 3600) chips.push({label:'Treino focado ⚡', good:true});
+  else if (getChronoSecs() < 5400) chips.push({label:'Ótimo volume 💪', good:true});
   else chips.push({label:'Treino longo — hidrate-se!', good:false});
 
   document.getElementById('sumChips').innerHTML = chips.map(c =>
@@ -1729,7 +1747,7 @@ function closeSummaryAndNote() {
   const done = (checked[t.id] || new Set()).size;
   const tot  = t.exercicios.length;
   // salvar tempo no contexto para incluir no historico
-  window._lastChronoSecs = chronoSeconds;
+  window._lastChronoSecs = getChronoSecs();
   chronoReset();
   abrirNota(t.id, done, tot);
 }
@@ -2032,6 +2050,7 @@ function saveNota() {
   saveExerciseHistory(treinoId);
   historico.unshift(entry);
   saveHistorico();
+  clearActiveSession();
   closeNota();
   renderEvolucao();
 }
@@ -2151,6 +2170,100 @@ function renderHistList() {
   }).join('');
 }
 
+
+
+// ══════════════════════════════════════════════════════════════════
+// PERSISTÊNCIA DE SESSÃO — sobrevive a refresh e fechamento
+// ══════════════════════════════════════════════════════════════════
+
+function saveActiveSession() {
+  if (!currentTreino) return;
+  localStorage.setItem('activeSession', JSON.stringify({
+    treinoId:      currentTreino.id,
+    checkedArr:    [...(checked[currentTreino.id] || new Set())],
+    chronoBaseSecs: chronoBaseSecs,
+    chronoStartTs:  chronoStartTs,
+    chronoRunning:  chronoRunning,
+    savedAt:        Date.now(),
+  }));
+}
+
+function clearActiveSession() {
+  localStorage.removeItem('activeSession');
+}
+
+function tryRestoreSession() {
+  try {
+    const raw = localStorage.getItem('activeSession');
+    if (!raw) return;
+    const s = JSON.parse(raw);
+
+    // Expirar sessões com mais de 24h
+    if (!s.savedAt || Date.now() - s.savedAt > 86400000) {
+      clearActiveSession();
+      return;
+    }
+
+    const t = TREINOS.find(x => x.id === s.treinoId);
+    if (!t) return;
+
+    // Restaurar checked
+    checked[s.treinoId] = new Set(s.checkedArr || []);
+
+    // Restaurar cronômetro — incluindo tempo que passou enquanto o app estava fechado
+    chronoBaseSecs = s.chronoBaseSecs || 0;
+    chronoStartTs  = null;
+    chronoRunning  = false;
+    if (s.chronoRunning && s.chronoStartTs) {
+      // Adiciona o tempo decorrido enquanto o app estava fechado
+      chronoBaseSecs += Math.floor((Date.now() - s.chronoStartTs) / 1000);
+    }
+
+    // Navegar para a tela de treino em modo restore
+    openTreino(s.treinoId, true);
+
+    // Atualizar display do cronômetro com o tempo acumulado
+    document.getElementById('chronoDisplay').textContent = chronoFmt(chronoBaseSecs);
+    if (chronoBaseSecs > 0) {
+      document.getElementById('chronoDisplay').className = 'chrono-display stopped';
+      document.getElementById('chronoBtnStart').textContent = '▶ Retomar';
+      document.getElementById('chronoBtnStart').style.display = '';
+      document.getElementById('chronoBtnFinish').style.display = '';
+    }
+
+    // Se estava rodando antes, retomar automaticamente
+    if (s.chronoRunning) {
+      chronoStart();
+    }
+
+    // Banner de feedback para o usuário
+    showRestoreBanner(s.treinoId, s.checkedArr?.length || 0, t.exercicios.length);
+
+  } catch(e) {
+    clearActiveSession();
+  }
+}
+
+function showRestoreBanner(treinoId, feitos, total) {
+  const existing = document.getElementById('restoreBanner');
+  if (existing) existing.remove();
+  const banner = document.createElement('div');
+  banner.id = 'restoreBanner';
+  banner.style.cssText = `
+    position:fixed;top:62px;left:0;right:0;z-index:150;
+    background:rgba(0,201,167,.12);border-bottom:1px solid rgba(0,201,167,.3);
+    padding:10px 16px;display:flex;align-items:center;gap:10px;
+    font-size:13px;font-weight:600;color:var(--green);
+    animation:fadeIn .3s ease;
+  `;
+  banner.innerHTML = `
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+    Treino ${treinoId} restaurado — ${feitos}/${total} exercícios concluídos
+    <button onclick="this.parentElement.remove()" style="margin-left:auto;background:none;border:none;color:var(--green);font-size:18px;cursor:pointer;padding:0 4px">×</button>
+  `;
+  document.getElementById('app').appendChild(banner);
+  setTimeout(() => banner?.remove(), 5000);
+}
 
 // ══════════════════════════════════════════════════════════════════
 // FASE 2 — Gráficos, histórico detalhado, volume por grupo, progressão
