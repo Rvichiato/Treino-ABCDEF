@@ -2714,4 +2714,10 @@ function renderResumeSemanal() {
   ).join('');
 }
 
-function treinos
+function treinosNaSemana_offset() {
+  const hoje = new Date(); hoje.setHours(0,0,0,0);
+  return hoje.getDay() === 0 ? 6 : hoje.getDay() - 1;
+}
+</script>
+</body>
+</html>
