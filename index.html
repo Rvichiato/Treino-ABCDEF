@@ -719,6 +719,34 @@ a{color:inherit;text-decoration:none}
 .semana-grupos{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .semana-grupo-pill{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:var(--bg3);border:1px solid var(--border);color:var(--text2)}
 
+
+/* ── Calendário Mensal ────────────────────────────────────────── */
+.cal-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:14px}
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.cal-month-title{font-size:14px;font-weight:700;color:var(--text)}
+.cal-nav{background:none;border:none;color:var(--text2);padding:4px 8px;cursor:pointer;border-radius:8px;display:flex;align-items:center;transition:.15s}
+.cal-nav:active{background:var(--bg3)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cal-day-lbl{text-align:center;font-size:11px;font-weight:700;color:var(--text3);padding:4px 0 8px}
+.cal-day{
+  position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  aspect-ratio:1;font-size:13px;font-weight:500;color:var(--text2);
+  border-radius:50%;cursor:default;user-select:none;gap:3px;
+}
+.cal-day.cal-other{color:var(--text3);opacity:.35}
+.cal-day.cal-today{font-weight:800;color:var(--acc2)}
+.cal-day.cal-today::after{
+  content:'';position:absolute;bottom:3px;left:50%;transform:translateX(-50%);
+  width:4px;height:4px;border-radius:50%;background:var(--acc2);
+}
+.cal-day.cal-has-workout{color:#fff;font-weight:700}
+.cal-day.cal-has-workout .cal-day-inner{
+  width:32px;height:32px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--tw-cor,var(--acc));font-size:12px;font-weight:800;
+}
+.cal-day-treino-lbl{font-size:8px;font-weight:700;opacity:.8;letter-spacing:.4px;line-height:1}
+
 /* ── Backup / Dados ───────────────────────────────────────────── */
 .backup-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-top:16px}
 .backup-row{display:flex;gap:10px;margin-top:12px}
@@ -807,8 +835,8 @@ a{color:inherit;text-decoration:none}
         </div>
       </div>
 
-      <!-- Próximo treino sugerido -->
-      <div id="nextTreinoCard"></div>
+      <!-- Calendário mensal -->
+      <div class="cal-card" id="calendarCard"></div>
 
       <!-- Streak ring + info -->
       <div class="streak-card" id="streakCard">
@@ -1900,8 +1928,8 @@ function renderHomeDashboard() {
     document.getElementById('streakSub').textContent    = 'Excelente consistência! Mantenha o ritmo.';
   }
 
-  // Próximo treino
-  renderNextTreino();
+  // Calendário
+  renderCalendar();
 
   // Sparkline
   renderSparkline();
@@ -1940,34 +1968,94 @@ function treinosNaSemana(semAgo) {
   return historico.filter(h => h.ts >= ini && h.ts < fim).length;
 }
 
-function renderNextTreino() {
-  const el = document.getElementById('nextTreinoCard');
-  if (!historico.length) {
-    el.innerHTML = `<div class="next-card" onclick="openTreino('A')">
-      <div class="next-badge">A</div>
-      <div class="next-info">
-        <div class="next-label">Próximo treino sugerido</div>
-        <div class="next-name">Superior 01</div>
-        <div class="next-meta">7 exercícios · aquecimento ~12 min</div>
-      </div>
-      <svg class="next-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-    </div>`; return;
+// Estado do calendário
+let _calDate = new Date();
+
+function calNav(dir) {
+  _calDate = new Date(_calDate.getFullYear(), _calDate.getMonth() + dir, 1);
+  renderCalendar();
+}
+
+function renderCalendar() {
+  const el = document.getElementById('calendarCard');
+  if (!el) return;
+
+  const year  = _calDate.getFullYear();
+  const month = _calDate.getMonth();
+
+  // Mapa de dias com treino: {dia: [{id, cor}]}
+  const wMap = {};
+  historico.forEach(h => {
+    const d = new Date(h.ts);
+    if (d.getFullYear() === year && d.getMonth() === month) {
+      const k = d.getDate();
+      if (!wMap[k]) wMap[k] = [];
+      const t = TREINOS.find(x => x.id === h.id);
+      if (!wMap[k].find(x => x.id === h.id))
+        wMap[k].push({id: h.id, cor: t ? t.cor : 'var(--acc)'});
+    }
+  });
+
+  const firstDow   = new Date(year, month, 1).getDay();   // 0=dom
+  const daysInMon  = new Date(year, month + 1, 0).getDate();
+  const daysInPrev = new Date(year, month, 0).getDate();
+  const today      = new Date();
+  const isCurMon   = today.getFullYear() === year && today.getMonth() === month;
+
+  const MONTH_PT = ['janeiro','fevereiro','março','abril','maio','junho',
+                    'julho','agosto','setembro','outubro','novembro','dezembro'];
+  const DOW_PT   = ['D','S','T','Q','Q','S','S'];
+
+  // Monta células (sempre 42 = 6 linhas)
+  const cells = [];
+  for (let i = firstDow - 1; i >= 0; i--)
+    cells.push({day: daysInPrev - i, other: true});
+  for (let d = 1; d <= daysInMon; d++) {
+    const isToday    = isCurMon && today.getDate() === d;
+    const workouts   = wMap[d] || [];
+    cells.push({day: d, isToday, workouts});
   }
-  // Descobrir qual treino vem a seguir no ciclo
-  const feitos = new Set(historico.slice(0,6).map(h=>h.id));
-  const ordem  = ['A','B','C','D','E','F'];
-  let proximo  = ordem.find(id => !feitos.has(id)) || 'A';
-  const t      = TREINOS.find(x => x.id === proximo);
-  const aq     = t.tipo === 'sup' ? '~12 min' : '~8 min';
-  el.innerHTML = `<div class="next-card" onclick="openTreino('${t.id}')">
-    <div class="next-badge" style="background:${t.cor}22;color:${t.cor}">${t.id}</div>
-    <div class="next-info">
-      <div class="next-label">Próximo treino sugerido</div>
-      <div class="next-name">${t.nome}</div>
-      <div class="next-meta">${t.exercicios.length} exercícios · aquecimento ${aq}</div>
+  while (cells.length < 42)
+    cells.push({day: cells.length - firstDow - daysInMon + 1, other: true});
+
+  const headerCells = DOW_PT.map(l => `<div class="cal-day-lbl">${l}</div>`).join('');
+
+  const dayCells = cells.map(c => {
+    if (c.other) return `<div class="cal-day cal-other">${c.day}</div>`;
+
+    const hw = c.workouts.length > 0;
+    const w  = hw ? c.workouts[0] : null;
+
+    if (hw) {
+      return `<div class="cal-day cal-has-workout" style="--tw-cor:${w.cor}">
+        <div class="cal-day-inner">${c.day}</div>
+        <div class="cal-day-treino-lbl">${c.workouts.map(x=>x.id).join('·')}</div>
+      </div>`;
+    }
+    if (c.isToday) {
+      return `<div class="cal-day cal-today">${c.day}</div>`;
+    }
+    return `<div class="cal-day">${c.day}</div>`;
+  }).join('');
+
+  // Navegação: não permitir avançar além do mês atual
+  const nowDate   = new Date();
+  const isLatest  = year === nowDate.getFullYear() && month === nowDate.getMonth();
+
+  el.innerHTML = `
+    <div class="cal-header">
+      <button class="cal-nav" onclick="calNav(-1)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="cal-month-title">${MONTH_PT[month]} de ${year}</div>
+      <button class="cal-nav" onclick="calNav(1)" ${isLatest ? 'style="opacity:.25;pointer-events:none"' : ''}>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
     </div>
-    <svg class="next-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-  </div>`;
+    <div class="cal-grid">
+      ${headerCells}
+      ${dayCells}
+    </div>`;
 }
 
 function renderSparkline() {
@@ -2623,11 +2711,4 @@ function renderResumeSemanal() {
   ).join('');
 }
 
-function treinosNaSemana_offset() {
-  const hoje = new Date(); hoje.setHours(0,0,0,0);
-  return hoje.getDay() === 0 ? 6 : hoje.getDay() - 1;
-}
-
-</script>
-</body>
-</html>
+function treinos
