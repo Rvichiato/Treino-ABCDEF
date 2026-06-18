@@ -688,8 +688,10 @@ a{color:inherit;text-decoration:none}
 .set-done-btn svg{width:14px;height:14px;stroke:transparent;stroke-width:3;transition:.2s}
 .set-row.sdone .set-done-btn{border-color:var(--green);background:var(--green)}
 .set-row.sdone .set-done-btn svg{stroke:var(--bg)}
-.set-row.sdone .set-input{opacity:.45;pointer-events:none}
+.set-row.sdone .set-input{opacity:.7}
 .set-ref{font-size:10px;color:var(--text3);font-style:italic;padding:2px 0 6px 32px}
+.set-field-rpe{max-width:52px}
+.set-input-rpe{color:var(--acc2) !important}
 .ex-metric-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
 .ex-metric{
   display:inline-flex;align-items:center;gap:3px;
@@ -702,6 +704,29 @@ a{color:inherit;text-decoration:none}
 .ex-metric.m-down{color:var(--amber);border-color:rgba(255,209,102,.3)}
 .ex-metric.m-same{color:var(--text3)}
 
+
+
+
+/* ── Resumo Semanal ───────────────────────────────────────────── */
+.semana-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-bottom:16px}
+.semana-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.semana-title{font-size:13px;font-weight:700;color:var(--text)}
+.semana-treinos{font-size:11px;font-weight:700;color:var(--acc);background:rgba(0,201,167,.12);border-radius:20px;padding:3px 10px}
+.semana-stats{display:flex;gap:12px}
+.semana-stat{flex:1;background:var(--bg3);border-radius:var(--r-sm);padding:10px 8px;text-align:center}
+.semana-stat-val{font-size:18px;font-weight:800;color:var(--text)}
+.semana-stat-lbl{font-size:10px;color:var(--text3);margin-top:2px}
+.semana-grupos{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.semana-grupo-pill{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:var(--bg3);border:1px solid var(--border);color:var(--text2)}
+
+/* ── Backup / Dados ───────────────────────────────────────────── */
+.backup-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-top:16px}
+.backup-row{display:flex;gap:10px;margin-top:12px}
+.backup-btn{flex:1;padding:11px 8px;border-radius:var(--r-sm);font-size:13px;font-weight:700;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:.15s}
+.backup-btn.exp{background:var(--acc);color:#000}
+.backup-btn.imp{background:var(--bg3);color:var(--text);border:1px solid var(--border)}
+.backup-btn:active{opacity:.75}
+.backup-label{font-size:11px;color:var(--text3);margin-top:8px;text-align:center}
 
 /* ── Fase 2 ───────────────────────────────────────────────────── */
 .load-chart-wrap{margin-top:10px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px;display:none}
@@ -799,6 +824,29 @@ a{color:inherit;text-decoration:none}
           <div class="streak-title" id="streakTitle">Comece hoje!</div>
           <div class="streak-sub" id="streakSub">Nenhum treino registrado ainda</div>
         </div>
+      </div>
+
+      <!-- Resumo semanal -->
+      <div class="semana-card" id="semanaCard" style="display:none">
+        <div class="semana-header">
+          <div class="semana-title">Esta semana</div>
+          <div class="semana-treinos" id="semanaTreinos">0 treinos</div>
+        </div>
+        <div class="semana-stats">
+          <div class="semana-stat">
+            <div class="semana-stat-val" id="semanaVolume">—</div>
+            <div class="semana-stat-lbl">Volume total (kg)</div>
+          </div>
+          <div class="semana-stat">
+            <div class="semana-stat-val" id="semanaEx">—</div>
+            <div class="semana-stat-lbl">Exercícios feitos</div>
+          </div>
+          <div class="semana-stat">
+            <div class="semana-stat-val" id="semanaMedia">—</div>
+            <div class="semana-stat-lbl">Duração média</div>
+          </div>
+        </div>
+        <div class="semana-grupos" id="semanaGrupos"></div>
       </div>
 
       <!-- Sparkline semanal -->
@@ -933,6 +981,23 @@ a{color:inherit;text-decoration:none}
       <div class="card" style="font-size:13px;color:var(--text2);line-height:1.7">
         <p style="margin-bottom:6px"><strong style="color:var(--red)">Ombro direito:</strong> Cisto paralabral 1,0 cm na base anteroinferior do labrum. Tendinopatia do supraespinhal. Impacto subacromial.</p>
         <p><strong style="color:var(--amber)">Ombro esquerdo:</strong> Tendinopatia do supraespinhal + infraespinhal (dois tendões). Impacto subacromial. Condropatia AC bilateral.</p>
+      </div>
+
+      <div class="section-title" style="margin-top:16px">Dados e backup</div>
+      <div class="backup-card">
+        <div style="font-size:13px;color:var(--text2)">Exporte seu histórico completo como JSON para guardar ou transferir para outro dispositivo.</div>
+        <div class="backup-row">
+          <button class="backup-btn exp" onclick="exportarDados()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Exportar dados
+          </button>
+          <button class="backup-btn imp" onclick="document.getElementById('importFile').click()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Importar backup
+          </button>
+          <input type="file" id="importFile" accept=".json" style="display:none" onchange="importarDados(this)">
+        </div>
+        <div class="backup-label" id="backupStatus">Último backup: nunca</div>
       </div>
     </div>
 
@@ -1329,6 +1394,12 @@ function renderExList(t) {
               oninput="onSetInput('${t.id}',${i},${si},'reps',this.value)">
             <div class="set-input-lbl">reps</div>
           </div>
+          <div class="set-field set-field-rpe">
+            <input class="set-input set-input-rpe" type="number" inputmode="numeric" min="1" max="10"
+              id="set-rpe-${i}-${si}" placeholder="—" value="${s.rpe||''}"
+              oninput="onSetInput('${t.id}',${i},${si},'rpe',this.value)">
+            <div class="set-input-lbl">RPE</div>
+          </div>
         </div>
         <button class="set-done-btn" onclick="markSet('${t.id}',${i},${si})">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1505,10 +1576,18 @@ function markSet(treinoId, exIdx, setIdx) {
   const k = setKey(treinoId, exIdx);
   if (!setLog[k]) return;
   const s = setLog[k][setIdx];
-  if (s.done) return;
+  const row = document.getElementById('setrow-' + exIdx + '-' + setIdx);
+  if (s.done) {
+    // Toggle: desfaz confirmação para permitir correção
+    s.done = false;
+    saveSetLog();
+    if (row) row.classList.remove('sdone');
+    const ex2 = TREINOS.find(t => t.id === treinoId)?.exercicios[exIdx];
+    if (ex2) updateExMetrics(treinoId, exIdx, ex2.nome);
+    return;
+  }
   s.done = true;
   saveSetLog();
-  const row = document.getElementById('setrow-' + exIdx + '-' + setIdx);
   if (row) row.classList.add('sdone');
   const ex = TREINOS.find(t => t.id === treinoId)?.exercicios[exIdx];
   if (ex) updateExMetrics(treinoId, exIdx, ex.nome);
@@ -1528,7 +1607,7 @@ function saveExerciseHistory(treinoId) {
     const doneSets = (setLog[k] || []).filter(s => s.done && s.load);
     if (!doneSets.length) return;
     if (!exerciseHistory[ex.nome]) exerciseHistory[ex.nome] = [];
-    exerciseHistory[ex.nome].unshift({ts: Date.now(), sets: doneSets.map(s => ({load:s.load, reps:s.reps}))});
+    exerciseHistory[ex.nome].unshift({ts: Date.now(), sets: doneSets.map(s => ({load:s.load, reps:s.reps, rpe:s.rpe||''}))});
     if (exerciseHistory[ex.nome].length > 10) exerciseHistory[ex.nome].length = 10;
   });
   localStorage.setItem('exerciseHistory', JSON.stringify(exerciseHistory));
@@ -1835,6 +1914,9 @@ function renderHomeDashboard() {
 
   // Últimos treinos
   renderRecent();
+
+  // Resumo semanal
+  renderResumeSemanal();
 }
 
 function calcStreak() {
@@ -2411,6 +2493,7 @@ function openHistDetail(idx) {
           return `<div class="hd-set-row">
             <div class="hd-set-num">S${i+1}</div>
             <div class="hd-set-data">${s.load}kg × ${s.reps} reps</div>
+            ${s.rpe ? `<span style="font-size:10px;background:var(--bg3);border-radius:20px;padding:2px 7px;color:var(--acc2)">RPE ${s.rpe}</span>` : ''}
             ${orm ? `<div class="hd-set-1rm">1RM ~${orm}kg</div>` : ''}
           </div>`;
         }).join('')}
@@ -2433,6 +2516,118 @@ function closeHistDetail() {
 
 // ══════════════════════════════════════════════════════════════════
 init();
+
+// ══════════════════════════════════════════════════════════════════
+// BACKUP — Exportar / Importar
+// ══════════════════════════════════════════════════════════════════
+function exportarDados() {
+  const data = {
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    historico: JSON.parse(localStorage.getItem('historico') || '[]'),
+    setLog: JSON.parse(localStorage.getItem('setLog') || '{}'),
+    exerciseHistory: JSON.parse(localStorage.getItem('exerciseHistory') || '{}'),
+    doneDays: JSON.parse(localStorage.getItem('doneDays') || '[]'),
+    totalDone: localStorage.getItem('totalDone') || '0',
+    pesoLog: JSON.parse(localStorage.getItem('pesoLog') || '[]'),
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  const date = new Date().toISOString().slice(0,10);
+  a.href = url; a.download = `treino-backup-${date}.json`;
+  a.click(); URL.revokeObjectURL(url);
+  const el = document.getElementById('backupStatus');
+  if (el) el.textContent = 'Exportado em: ' + new Date().toLocaleString('pt-BR');
+}
+
+function importarDados(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data.version || !data.historico) throw new Error('Arquivo inválido');
+      if (!confirm(`Importar backup de ${data.exportedAt?.slice(0,10) || 'data desconhecida'}?\n\nIsso substituirá o histórico atual.`)) return;
+      if (data.historico)       localStorage.setItem('historico',       JSON.stringify(data.historico));
+      if (data.setLog)          localStorage.setItem('setLog',          JSON.stringify(data.setLog));
+      if (data.exerciseHistory) localStorage.setItem('exerciseHistory', JSON.stringify(data.exerciseHistory));
+      if (data.doneDays)        localStorage.setItem('doneDays',        JSON.stringify(data.doneDays));
+      if (data.totalDone)       localStorage.setItem('totalDone',       data.totalDone);
+      if (data.pesoLog)         localStorage.setItem('pesoLog',         JSON.stringify(data.pesoLog));
+      alert('Backup importado com sucesso! O app será recarregado.');
+      location.reload();
+    } catch(err) {
+      alert('Erro ao importar: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+  input.value = '';
+}
+
+
+// ══════════════════════════════════════════════════════════════════
+// RESUMO SEMANAL
+// ══════════════════════════════════════════════════════════════════
+function renderResumeSemanal() {
+  const agora   = Date.now();
+  const inicioSem = agora - treinosNaSemana_offset() * 86400000;
+  // pegar início da semana (segunda)
+  const hoje = new Date(); hoje.setHours(0,0,0,0);
+  const diaSem = hoje.getDay() === 0 ? 6 : hoje.getDay() - 1; // 0=seg
+  const seg = new Date(hoje); seg.setDate(hoje.getDate() - diaSem);
+  const segTs = seg.getTime();
+
+  const treinosSem = historico.filter(h => h.ts >= segTs);
+  const card = document.getElementById('semanaCard');
+  if (!card) return;
+
+  if (treinosSem.length === 0) { card.style.display = 'none'; return; }
+  card.style.display = 'block';
+
+  const n = treinosSem.length;
+  document.getElementById('semanaTreinos').textContent = n + (n === 1 ? ' treino' : ' treinos');
+
+  // Volume total (soma do campo volume salvo no histórico)
+  const volTotal = treinosSem.reduce((acc, h) => acc + (h.volumeTotal || 0), 0);
+  const volStr = volTotal > 0 ? (volTotal >= 1000 ? (volTotal/1000).toFixed(1)+'t' : volTotal.toLocaleString('pt-BR')+'kg') : '—';
+  document.getElementById('semanaVolume').textContent = volStr;
+
+  // Total exercícios
+  const exTotal = treinosSem.reduce((acc, h) => acc + (h.exFeitos || 0), 0);
+  document.getElementById('semanaEx').textContent = exTotal || '—';
+
+  // Duração média
+  const duracoes = treinosSem.filter(h => h.duracao > 0).map(h => h.duracao);
+  if (duracoes.length > 0) {
+    const mediaMin = Math.round(duracoes.reduce((a,b) => a+b, 0) / duracoes.length / 60);
+    document.getElementById('semanaMedia').textContent = mediaMin + 'min';
+  } else {
+    document.getElementById('semanaMedia').textContent = '—';
+  }
+
+  // Grupos musculares únicos
+  const gruposSet = new Set();
+  treinosSem.forEach(h => {
+    const t = TREINOS.find(x => x.id === h.id);
+    if (!t) return;
+    t.exercicios.forEach(ex => {
+      const g = getGrupo(ex.nome);
+      if (g) gruposSet.add(g);
+    });
+  });
+  const gruposEl = document.getElementById('semanaGrupos');
+  gruposEl.innerHTML = [...gruposSet].map(g =>
+    `<span class="semana-grupo-pill">${g}</span>`
+  ).join('');
+}
+
+function treinosNaSemana_offset() {
+  const hoje = new Date(); hoje.setHours(0,0,0,0);
+  return hoje.getDay() === 0 ? 6 : hoje.getDay() - 1;
+}
+
 </script>
 </body>
 </html>
