@@ -1,15 +1,11 @@
-const CACHE = 'treino-v3';
-const STATIC = ['/manifest.json'];
+const CACHE = 'treino-v4';
 
-// Install: pré-cacheia apenas assets estáticos (não o HTML)
+// Install: ativa imediatamente sem pré-cachear nada
 self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(CACHE).then(c => c.addAll(STATIC))
-  );
   self.skipWaiting();
 });
 
-// Activate: apaga caches antigos e assume controle imediato
+// Activate: apaga caches antigos e assume controle
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys().then(keys =>
@@ -21,13 +17,7 @@ self.addEventListener('activate', e => {
 
 // Fetch: network-first para HTML, cache-first para o resto
 self.addEventListener('fetch', e => {
-  const url = new URL(e.request.url);
-  const isHTML = e.request.destination === 'document' ||
-                 url.pathname.endsWith('.html') ||
-                 url.pathname === '/';
-
-  if (isHTML) {
-    // Sempre busca a versão mais nova do servidor; só usa cache se offline
+  if (e.request.destination === 'document') {
     e.respondWith(
       fetch(e.request)
         .then(res => {
@@ -38,7 +28,6 @@ self.addEventListener('fetch', e => {
         .catch(() => caches.match(e.request))
     );
   } else {
-    // Cache-first para assets estáticos
     e.respondWith(
       caches.match(e.request).then(r => r || fetch(e.request))
     );
